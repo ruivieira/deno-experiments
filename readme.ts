@@ -1,7 +1,7 @@
 /**
  * INFO: Script to auto-generate this repo's `README.md`
  */
-import { readFileStr } from 'https://deno.land/std/fs/mod.ts';
+import { readFileStr, writeFileStrSync } from 'https://deno.land/std/fs/mod.ts';
 import { walkSync }  from "https://deno.land/std/fs/mod.ts";
 import { renderFile } from 'https://deno.land/x/mustache/mod.ts';
 
@@ -17,7 +17,10 @@ for (const fileInfo of walkSync(".")) {
         for (let line of lines) {
             // console.log(`line: ${line}`);
             if (line.startsWith(' * INFO: ')) {
-                infos.push(line.substring(9, line.length));
+                infos.push({
+                    path : fileInfo.path,
+                    info: line.substring(9, line.length)
+                });
             }
         }
     }
@@ -27,6 +30,9 @@ console.log(infos);
 let s = await renderFile(`README.template.md`, {
     infos: infos
 })
+
+writeFileStrSync('README.md', s);
+
 console.log(s);
 
 // const countWords = (s: string): number =>
