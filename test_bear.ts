@@ -1,5 +1,5 @@
-import * as bear from "./bear.ts"
+import * as bear from "./bear.ts";
 
-bear.getDB().then(db => {
-    bear.allNotes(db);
+bear.getDB().then((db) => {
+  bear.allNotes(db);
 });
