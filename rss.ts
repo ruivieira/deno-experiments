@@ -6,14 +6,23 @@ import { SAXParser } from "https://unpkg.com/sax-ts@1.2.8/src/sax.ts";
 const strict: boolean = true; // change to false for HTML parsing
 const options: {} = {}; // refer to "Arguments" section
 
-async function parseFeed(feedURL: string): Promise<any[]> {
+class FeedItem {
+  title: string = "";
+  link: string = "";
+  pubDate: string = "";
+  comments: string = "";
+  constructor() {
+  }
+}
+
+async function parseFeed(feedURL: string): Promise<FeedItem[]> {
   const text = await fetch(feedURL).then((x) => x.text());
   console.log(text);
 
-  let feedItems: any[] = [];
+  let feedItems: FeedItem[] = [];
   const parser = new SAXParser(strict, options);
 
-  var currentEntry: any = null;
+  var currentEntry: FeedItem | null = null;
   var currentAttribute: string = "";
 
   parser.onerror = (e: any) => {
@@ -24,7 +33,20 @@ async function parseFeed(feedURL: string): Promise<any[]> {
   parser.ontext = (t: any) => {
     // got some text.  t is the string of text.
     if (currentAttribute != "" && currentEntry != null) {
-      currentEntry[currentAttribute] = t;
+      if (currentAttribute != "" && currentEntry != null) {
+        if (currentAttribute == "title") {
+          currentEntry.title = t;
+        }
+        if (currentAttribute == "link") {
+          currentEntry.link = t;
+        }
+        if (currentAttribute == "pubDate") {
+          currentEntry.pubDate = t;
+        }
+        if (currentAttribute == "comments") {
+          currentEntry.comments = t;
+        }
+      }
     }
     // console.log("onText: ", t);
   };
@@ -35,7 +57,7 @@ async function parseFeed(feedURL: string): Promise<any[]> {
       if (currentEntry != null) {
         feedItems.push(currentEntry);
       }
-      currentEntry = {};
+      currentEntry = new FeedItem();
       currentAttribute = "title";
     } else if (node.name == "link") {
       currentAttribute = "link";
@@ -59,7 +81,10 @@ async function parseFeed(feedURL: string): Promise<any[]> {
 
   parser.onend = () => {
     // parser stream is done, and ready to have more stuff written to it.
-    feedItems.push(currentEntry);
+    if (currentEntry != null) {
+      feedItems.push(currentEntry);
+    }
+
     // console.warn("end of XML");
   };
 
