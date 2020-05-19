@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Document</title>
+    <link rel="stylesheet" href="mini-default.min.css" />
+    <script src="p5.min.js"></script>
+    <script src="test_random.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+          <p style="text-align: center;margin-bottom: 50px;margin-top: 50px;">
+            <span style="color: red;">⬤</span> - Mersenne Twister 19937
+            <span style="color: blue;padding-left: 50px;">⬤</span> - Javascript native
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-offset-3 col-sm-6" id="plot"></div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const N = 5000;
+    const mersenneSamples = {
+      x: new MersenneTwister19937Test().sample(N, 0, 640),
+      y: new MersenneTwister19937Test().sample(N, 0, 480),
+    };
+    const nativeSamples = {
+      x: new NativeMathTest().sample(N, 0, 640),
+      y: new NativeMathTest().sample(N, 0, 480),
+    };
+    let counter = 0;
+
+    let sketch = (p) => {
+      p.setup = () => {
+        console.log("starting the sketch");
+        p.createCanvas(640, 480);
+      };
+
+      p.draw = () => {
+        if (counter < N) {
+          // console.log(`x = ${x}, y = ${y}`);
+          p.fill(255, 0, 0);
+          p.ellipse(
+            mersenneSamples.x[counter],
+            mersenneSamples.y[counter],
+            4,
+            4
+          );
+          p.fill(0, 0, 255);
+          p.ellipse(nativeSamples.x[counter], nativeSamples.y[counter], 4, 4);
+          counter++;
+        }
+      };
+    };
+    new p5(sketch, window.document.getElementById("plot"));
+  </script>
+</html>
