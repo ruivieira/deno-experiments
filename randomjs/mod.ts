@@ -1,3 +1,6 @@
+/**
+ * INFO: A port of `random-js` to Deno
+ */
 export * from "./Random.ts";
 export * from "./engine/browserCrypto.ts";
 export * from "./engine/nativeMath.ts";

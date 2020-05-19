@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="mini-default.min.css" />
+    <script src="p5.min.js"></script>
+    <script src="test_bayes.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-offset-3 col-sm-6" id="plot"></div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const N = samples.mu.length;
+
+    let counter = 0;
+
+    let sketch = (p) => {
+      const mu_max = p.max(samples.mu);
+      const mu_min = p.min(samples.mu);
+      const sigma_max = p.max(samples.sigma);
+      const sigma_min = p.min(samples.sigma);
+      const histogram_mu = Array.from({ length: 640 }).fill(0);
+      const histogram_sigma = Array.from({ length: 480 }).fill(0);
+
+      p.drawHistogramMu = () => {
+        for (let x = 1; x <= 639; x++) {
+            index = histogram_mu[x];
+            y1 = p.int(p.map(index, 0, p.max(histogram_mu), p.height, p.height - 100));
+            y2 = p.height;
+            xPos = p.map(x,0, 640,0, p.width - 20)
+            p.line(xPos, y1, xPos, y2);
+        }
+      }
+
+      p.drawHistogramSigma = () => {
+        for (let x = 1; x <= 479; x++) {
+            index = histogram_sigma[x];
+            y2 = p.int(p.map(index, 0, p.max(histogram_sigma), p.width, p.width - 100));
+            y1 = p.width;
+            xPos = p.map(x,0, 480,0, p.height - 20)
+            p.line(y1,xPos, y2, xPos);
+        }
+      }
+
+      p.setup = () => {
+        console.log("starting the sketch");
+        p.createCanvas(640, 480);
+        p.fill('rgba(0,0,0, 0.1)');
+        p.noStroke();
+      };
+
+      p.draw = () => {
+        if (counter < N) {
+            p.fill('rgba(255,0,0, 0.2)');
+            p.noStroke();
+            let x = p.map(samples.mu[counter], mu_min, mu_max, 0, 640);
+            let y = p.map(samples.sigma[counter], sigma_min, sigma_max, 0, 480);
+          p.ellipse(x, y, 4, 4);
+          p.stroke(0);
+            p.fill('rgba(0,0,0,0.5)');
+          histogram_mu[p.int(x)]++;
+          histogram_sigma[p.int(y)]++;
+          p.drawHistogramMu();
+          p.drawHistogramSigma();
+          counter++;
+        }
+      };
+    };
+    new p5(sketch, window.document.getElementById("plot"));
+  </script>
+</html>
