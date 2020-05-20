@@ -1,5 +1,5 @@
 /**
- * INFO: A port of `bayes.js` to Deno
+ * INFO: a port of `bayes.js` to Deno
  */
 ////////// Helper Functions //////////
 //////////////////////////////////////

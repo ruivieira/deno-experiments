@@ -1,5 +1,5 @@
 /**
- * INFO: Script to auto-generate this repo's `README.md`
+ * INFO: script to auto-generate this repo's `README.md`
  */
 import { readFileStr, writeFileStrSync } from "https://deno.land/std/fs/mod.ts";
 import { walkSync } from "https://deno.land/std/fs/mod.ts";

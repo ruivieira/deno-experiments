@@ -1,5 +1,5 @@
 /**
- * INFO: A collection of log probability density functions (PDF)
+ * INFO: a collection of log probability density functions (PDF)
  */
 
 // A number of log probability density functions (PDF). Naming and parameterization

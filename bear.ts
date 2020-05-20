@@ -1,5 +1,5 @@
 /**
- * INFO: Tools to maniplute Bear's notes
+ * INFO: tools to maniplute Bear's notes
  */
 import { open, DB } from "https://deno.land/x/sqlite/mod.ts";
 import { homedir } from "https://deno.land/std@0.50.0/node/os.ts";
