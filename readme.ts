@@ -9,9 +9,9 @@ let infos = [];
 
 for (const fileInfo of walkSync(".")) {
   var fileExt = fileInfo.name.split(".").pop();
-  console.log(
-    `path: ${fileInfo.path}, name: ${fileInfo.name}, ext: ${fileExt}`,
-  );
+  // console.log(
+  //   `path: ${fileInfo.path}, name: ${fileInfo.name}, ext: ${fileExt}`,
+  // );
   if (fileExt == "ts") {
     // process the file
     const text = await readFileStr(fileInfo.path);
@@ -28,7 +28,7 @@ for (const fileInfo of walkSync(".")) {
   }
 }
 
-console.log(infos);
+// console.log(infos);
 let s = await renderFile(`README.template.md`, {
   infos: infos,
 });

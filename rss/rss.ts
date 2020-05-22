@@ -6,18 +6,17 @@ import { SAXParser } from "https://unpkg.com/sax-ts@1.2.8/src/sax.ts";
 const strict: boolean = true; // change to false for HTML parsing
 const options: {} = {}; // refer to "Arguments" section
 
-class FeedItem {
-  title: string = "";
-  link: string = "";
-  pubDate: string = "";
-  comments: string = "";
+export class FeedItem {
+  title?: string;
+  link?: string;
+  pubDate?: string;
+  comments?: string;
   constructor() {
   }
 }
 
-async function parseFeed(feedURL: string): Promise<FeedItem[]> {
+export async function parseFeed(feedURL: string): Promise<FeedItem[]> {
   const text = await fetch(feedURL).then((x) => x.text());
-  console.log(text);
 
   let feedItems: FeedItem[] = [];
   const parser = new SAXParser(strict, options);
@@ -92,6 +91,3 @@ async function parseFeed(feedURL: string): Promise<FeedItem[]> {
 
   return feedItems;
 }
-
-let feeds = await parseFeed("https://news.ycombinator.com/rss");
-console.log(feeds);
