@@ -7,8 +7,7 @@ sources:
 tasks:
     - setup: |
         curl -fsSL https://deno.land/x/install/install.sh | sh
-        export PATH=$PATH:~/.deno/bin
     - test: |
         cd deno-experiments
-        deno deno fmt --check */**.ts
-        deno test
+        /home/build/.deno/bin/deno deno fmt --check */**.ts
+        /home/build/.deno/bin/deno test
