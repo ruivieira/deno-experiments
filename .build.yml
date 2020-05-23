@@ -1,6 +1,6 @@
 image: ubuntu/latest
 packages:
-    - python3
+    - curl
 sources:
     - https://git.sr.ht/~ruivieira/deno-experiments
 tasks:
