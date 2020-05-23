@@ -1,0 +1,13 @@
+image: ubuntu/latest
+packages:
+    - python3
+sources:
+    - https://git.sr.ht/~ruivieira/deno-experiments
+tasks:
+    - setup: |
+        curl -fsSL https://deno.land/x/install/install.sh | sh
+        export PATH=$PATH:~/.deno/bin
+    - test: |
+        cd deno-experiments
+        deno deno fmt --check */**.ts
+        deno test
