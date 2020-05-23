@@ -1,6 +1,7 @@
 image: ubuntu/latest
 packages:
     - curl
+    - unzip
 sources:
     - https://git.sr.ht/~ruivieira/deno-experiments
 tasks:
