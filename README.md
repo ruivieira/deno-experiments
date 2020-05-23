@@ -1,5 +1,9 @@
+
 # deno-experiments
-![](docs/brontosaurus.png)
+
+![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg)
+
+![bronto!](docs/brontosaurus.png)
 
 * [bayesjs/mcmc.ts](bayesjs/mcmc.ts), a port of `bayes.js` to Deno
 * [bayesjs/distributions.ts](bayesjs/distributions.ts), a collection of log probability density functions (PDF)

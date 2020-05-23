@@ -1,12 +1,12 @@
 import * as c from "./linalg/core.ts";
-import * as mcmc from "./bayesjs/mcmc.ts"
+import * as mcmc from "./bayesjs/mcmc.ts";
 
 export class MultivariateNormal {
   mean: c.Vector;
   cov: c.Matrix;
   dim: number;
   constant: number;
-//   logDet: number;
+  //   logDet: number;
   inv: c.Matrix;
   constructor(mean: c.Vector, cov: c.Matrix) {
     this.dim = mean.dim;
@@ -22,7 +22,7 @@ export class MultivariateNormal {
   }
 
   getSample(): c.Vector {
-    let d = [...new Array(this.dim)].map(x => mcmc.rnorm(0, 1));
+    let d = [...new Array(this.dim)].map((x) => mcmc.rnorm(0, 1));
     var z = new c.Vector(d);
     let r = this.inv.multiply(z) as c.Vector;
     return this.mean.add(r);

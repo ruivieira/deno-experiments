@@ -154,8 +154,8 @@ export class Matrix {
   }
 
   asNestedArray(): Array<Array<number>> {
-    let result : Array<Array<number>> = [];
-    for (let i = 0 ; i < this.rows ; i++) {
+    let result: Array<Array<number>> = [];
+    for (let i = 0; i < this.rows; i++) {
       result.push(Array.from(this.row(i).data));
     }
     return result;
@@ -942,9 +942,9 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
     if (m < n) throw "Need more rows than columns";
 
     var e = new Array(n);
-    var q :Array<number> = new Array(n);
+    var q: Array<number> = new Array(n);
     for (i = 0; i < n; i++) e[i] = q[i] = 0.0;
-    var v : Array<Array<number>>= math.rep([n, n], 0);
+    var v: Array<Array<number>> = math.rep([n, n], 0);
     //	v.zero();
 
     let pythag = (a: number, b: number) => {
@@ -1214,7 +1214,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
     console.log(`v: ${v}`);
     let S = new Vector(q);
     let V = new Matrix(v, this.rows, this.cols);
-    
+
     return { U: U, S: S, V: V };
   }
 }

@@ -96,7 +96,7 @@ export function cauchy(x: number, location: number, scale: number) {
 
 export function norm(x: number, mean: number, sd: number) {
   return -0.5 * log(2 * pi) - log(sd) - pow(x - mean, 2) / (2 * sd * sd);
-}// A bivariate Normal distribution parameterized by arrays of two means and SDs, and
+} // A bivariate Normal distribution parameterized by arrays of two means and SDs, and
 // the correlation.
 
 export function bivarnorm(x: any, mean: any, sd: any, corr: number) {
@@ -154,7 +154,7 @@ export function t(x: number, location: number, scale: number, df: number) {
   df = df > 1e100 ? 1e100 : df;
   return lgamma((df + 1) / 2) - lgamma(df / 2) - log(sqrt(pi * df) * scale) +
     log(pow(1 + (1 / df) * pow((x - location) / scale, 2), -(df + 1) / 2));
-}// This is a direct javascript translation of the R code used to evaluate
+} // This is a direct javascript translation of the R code used to evaluate
 // the log density of a weibull distribution:
 // https://github.com/wch/r-source/blob/b156e3a711967f58131e23c1b1dc1ea90e2f0c43/src/nmath/dweibull.c
 
@@ -164,7 +164,7 @@ export function weibull(x: number, shape: number, scale: number) {
   var tmp1 = pow(x / scale, shape - 1);
   var tmp2 = tmp1 * (x / scale);
   return -tmp2 + log(shape * tmp1 / scale);
-}// This is a direct javascript translation of the R code used to evaluate
+} // This is a direct javascript translation of the R code used to evaluate
 // the log density of a logistic distribution:
 // https://github.com/wch/r-source/blob/b156e3a711967f58131e23c1b1dc1ea90e2f0c43/src/nmath/dlogis.c
 
@@ -194,7 +194,7 @@ export function exp(x: number, rate: number) {
 
 export function unif(x: number, min: number, max: number) {
   return (x < min || x > max) ? -Infinity : log(1 / (max - min));
-}////////// Discrete distributions //////////
+} ////////// Discrete distributions //////////
 ////////////////////////////////////////////
 
 export function bern(x: number, prob: number) {

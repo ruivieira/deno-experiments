@@ -5,6 +5,6 @@ import Client from "./Client/index.ts";
 import Instance from "./Instance/index.ts";
 
 export default {
-    Client,
-    Instance
-}
+  Client,
+  Instance,
+};

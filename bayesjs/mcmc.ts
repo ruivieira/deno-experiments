@@ -7,11 +7,11 @@
 /** Returns a random real number between min and max */
 export function runif(min: number, max: number) {
   return Math.random() * (max - min) + min;
-}/** Returns a random integer between min and max */
+} /** Returns a random integer between min and max */
 
 export function runif_discrete(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}/** Returns a random real number from a normal distribbution defined
+} /** Returns a random real number from a normal distribbution defined
    *  by mean and sd. 
    *  Adapted from https://github.com/jstat/jstat/blob/master/src/special.js */
 
@@ -26,7 +26,7 @@ export function rnorm(mean: number, sd: number) {
   } while (q > 0.27597 && (q > 0.27846 || v * v > -4 * Math.log(u) * u * u));
 
   return (v / u) * sd + mean;
-}/** Returns a deep clone of src, sort of... It only copies a limited
+} /** Returns a deep clone of src, sort of... It only copies a limited
    * number of types and, for example, function are not copied. 
    * From http://davidwalsh.name/javascript-clone
    */
@@ -81,7 +81,7 @@ export function deep_clone(src: any): any {
     r = src.constructor ? new src.constructor() : {};
   }
   return mixin(r, src, deep_clone);
-}/** Specialized clone function that only clones scalars and nested arrays where
+} /** Specialized clone function that only clones scalars and nested arrays where
    * each array either consists of all arrays or all numbers. This function
    * is meant as a fast way of cloning parameter draws within the mcmc sampling
    * loop.
@@ -102,13 +102,13 @@ function clone_param_draw(x: Array<any>): Array<any> {
   } else { // We'll assume x is a scalar
     return x;
   }
-}/** Returns true if object is a number.
+} /** Returns true if object is a number.
    */
 
 function is_number(object: any): boolean {
   return typeof object == "number" ||
     (typeof object == "object" && object.constructor === Number);
-}/**
+} /**
    * Creates and initializes a (possibly multidimensional/nested) array.
    * @param dim - An array giving the dimension of the array. For example,
    *   [5] would yield a 5 element array, and [3,3] would yield a 3 by 3 matrix.
@@ -142,7 +142,7 @@ function create_array(dim: any, init: any): Array<any> {
     throw "create_array can't create a dimensionless array";
   }
   return arr;
-}/**
+} /**
    * Return the dimensions of a possibly nested array as an array. For 
    * example, array_dim( [[1, 2], [1, 2]] ) should return [2, 2]
    * Assumes that all arrays inside another array are of the same length.
@@ -157,7 +157,7 @@ function array_dim(a: Array<any>): Array<number> {
   } else {
     return [a.length];
   }
-}/**
+} /**
    * Checks if two arrays are equal in the sense that they contain the same elements
    * as judged by the "==" operator. Returns true or false.
    * Adapted from http://stackoverflow.com/a/14853974/1001848
@@ -176,7 +176,7 @@ function array_equal(a1: Array<any>, a2: Array<any>): boolean {
     }
   }
   return true;
-}/**
+} /**
    * Traverses a possibly nested array a and applies fun to all "leaf nodes", 
    * that is, values that are not arrays. Returns an array of the same size as
    * a.
@@ -192,7 +192,7 @@ function nested_array_apply(a: Array<any>, fun: Function) {
   } else {
     return fun(a);
   }
-}/** Randomizing the array element order in-place. Using Durstenfeld
+} /** Randomizing the array element order in-place. Using Durstenfeld
    * shuffle algorithm. Adapted from here: 
    * http://stackoverflow.com/a/12646864/1001848
    */
@@ -232,7 +232,7 @@ function nested_array_random_apply(a: Array<any>, fun: Function) {
   } else {
     return fun(a);
   }
-}/**
+} /**
    * Allows a pretty way of setting default options where the defults can be
    * overridden by an options object.
    *  @param option_name - the name of the option as a string
@@ -244,6 +244,7 @@ function nested_array_random_apply(a: Array<any>, fun: Function) {
    * var my_options = {pi: 3.14159}
    * var pi = get_option("pi", my_options, 3.14)
    */
+
 // Pretty way of setting default options where the defaults can be overridden
 // by an options object. For example:
 // var pi = get_option("pi", my_options, 3.14)
@@ -255,7 +256,7 @@ function get_option(option_name: string, options: any, defaul_value: any) {
     options[option_name] !== null
     ? options[option_name]
     : defaul_value;
-}/** Version of get_option where the option should be a one or multi-dimensional
+} /** Version of get_option where the option should be a one or multi-dimensional
    * array and where the default can be overridden either by a scalar or by an array.
    * If it's a scalar the that scalar is used to initialize an array with 
    * dim dimensions.
@@ -287,7 +288,11 @@ var get_multidim_option = function (
    * a parameter of a certain type, possibly with lower and upper bounds.
    * The possile types are "real", "int", and "binary".
    */
-var param_init_fixed = function (type: ParameterType, lower: number, upper: number) {
+var param_init_fixed = function (
+  type: ParameterType,
+  lower: number,
+  upper: number,
+) {
   if (lower > upper) {
     throw "Can not initialize parameter where lower bound > upper bound";
   }
@@ -923,7 +928,7 @@ export class BinaryComponentStepper extends Stepper {
   info() {
     return {};
   }
-}/**
+} /**
    * @class
    * @implements {Stepper}
    * This stepper can be responsible for taking a step for one or more parameters.
@@ -939,10 +944,10 @@ export class BinaryComponentStepper extends Stepper {
    * @param options - an object with options to the stepper.
   */
 
- export enum ParameterType {
+export enum ParameterType {
   Real,
   Binary,
-  Int
+  Int,
 }
 
 export class AmwgStepper extends Stepper {
