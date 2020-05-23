@@ -1,7 +1,7 @@
 
 # deno-experiments
 
-![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg)
+![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg) [![builds.sr.ht status](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml.svg)](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml?)
 
 ![bronto!](docs/brontosaurus.png)
 
