@@ -15,6 +15,6 @@ jobs:
       - name: Show Deno version
         run: deno --version
       - name: Run lint
-        run: make lint
+        run: deno fmt --check */**.ts
       - name: Run tests
-        run: make test
+        run: deno test
