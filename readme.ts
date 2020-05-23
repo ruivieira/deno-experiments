@@ -1,8 +1,8 @@
 /**
  * INFO: script to auto-generate this repo's `README.md`
  */
-import { readFileStr, writeFileStrSync } from "https://deno.land/std/fs/mod.ts";
-import { walkSync } from "https://deno.land/std/fs/mod.ts";
+import { readFileStr, writeFileStrSync } from "https://deno.land/std@0.53.0/fs/mod.ts";
+import { walkSync } from "https://deno.land/std@0.53.0/fs/mod.ts";
 import { renderFile } from "https://deno.land/x/mustache/mod.ts";
 
 let infos = [];
