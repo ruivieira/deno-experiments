@@ -1,3 +1,6 @@
+/**
+ * INFO: assorted mathematical utility functions
+ */
 export function range(n: number): Array<number> {
   return Array.from(Array(n).keys());
 }

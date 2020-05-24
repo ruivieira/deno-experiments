@@ -1,4 +1,4 @@
-import * as math from "../math.ts";
+import * as utils from "../utils.ts";
 /*
 Copyright (c) 2016 Chi Feng
 
@@ -20,6 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+/**
+ * INFO: port of the _Bayes for physicists_ linear algebra library to Deno
+ */
+export let precision = 1e-6;
+
 
 export interface LUResult {
   L: Matrix;
@@ -944,7 +950,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
     var e = new Array(n);
     var q: Array<number> = new Array(n);
     for (i = 0; i < n; i++) e[i] = q[i] = 0.0;
-    var v: Array<Array<number>> = math.rep([n, n], 0);
+    var v: Array<Array<number>> = utils.rep([n, n], 0);
     //	v.zero();
 
     let pythag = (a: number, b: number) => {
