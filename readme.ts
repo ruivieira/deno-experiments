@@ -9,8 +9,8 @@ import { walkSync } from "https://deno.land/std@0.53.0/fs/mod.ts";
 import { renderFile } from "https://deno.land/x/mustache/mod.ts";
 
 interface Info {
-  path: string
-  info: string
+  path: string;
+  info: string;
 }
 
 let infos: Array<Info> = [];
@@ -40,14 +40,14 @@ for (const fileInfo of walkSync(".")) {
 infos.sort((a, b) => {
   const x = a.path.length + a.info.length;
   const y = b.path.length + b.info.length;
-    if ( x < y ){
-      return -1;
-    }
-    if ( x > y ){
-      return 1;
-    }
-    return 0;
-  });
+  if (x < y) {
+    return -1;
+  }
+  if (x > y) {
+    return 1;
+  }
+  return 0;
+});
 
 let s = await renderFile(`README.template.md`, {
   infos: infos,
