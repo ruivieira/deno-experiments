@@ -11,21 +11,6 @@ export function runif(min: number, max: number) {
 
 export function runif_discrete(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-} /** Returns a random real number from a normal distribbution defined
-   *  by mean and sd. 
-   *  Adapted from https://github.com/jstat/jstat/blob/master/src/special.js */
-
-export function rnorm(mean: number, sd: number) {
-  var u, v, x, y, q;
-  do {
-    u = Math.random();
-    v = 1.7156 * (Math.random() - 0.5);
-    x = u - 0.449871;
-    y = Math.abs(v) + 0.386595;
-    q = x * x + y * (0.19600 * y - 0.25472 * x);
-  } while (q > 0.27597 && (q > 0.27846 || v * v > -4 * Math.log(u) * u * u));
-
-  return (v / u) * sd + mean;
 } /** Returns a deep clone of src, sort of... It only copies a limited
    * number of types and, for example, function are not copied. 
    * From http://davidwalsh.name/javascript-clone

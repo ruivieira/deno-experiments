@@ -19,3 +19,15 @@ export function rep(s: Array<any>, v: any, k: number = 0) {
   for (i = n - 1; i >= 0; i--) ret[i] = rep(s, v, k + 1);
   return ret;
 }
+
+/**
+ * Calculate the mean of an array
+ * @param data Input data as an `Array`
+ */
+export function mean(data: Array<number>): number {
+  var sum = 0.0;
+  for (let i = 0; i < data.length; i++) {
+    sum += data[i];
+  }
+  return sum / data.length;
+}
