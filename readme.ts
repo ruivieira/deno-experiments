@@ -8,7 +8,12 @@ import {
 import { walkSync } from "https://deno.land/std@0.53.0/fs/mod.ts";
 import { renderFile } from "https://deno.land/x/mustache/mod.ts";
 
-let infos = [];
+interface Info {
+  path: string
+  info: string
+}
+
+let infos: Array<Info> = [];
 
 for (const fileInfo of walkSync(".")) {
   var fileExt = fileInfo.name.split(".").pop();
@@ -31,7 +36,19 @@ for (const fileInfo of walkSync(".")) {
   }
 }
 
-// console.log(infos);
+// Sort information by path lenght
+infos.sort((a, b) => {
+  const x = a.path.length + a.info.length;
+  const y = b.path.length + b.info.length;
+    if ( x < y ){
+      return -1;
+    }
+    if ( x > y ){
+      return 1;
+    }
+    return 0;
+  });
+
 let s = await renderFile(`README.template.md`, {
   infos: infos,
 });
@@ -39,10 +56,3 @@ let s = await renderFile(`README.template.md`, {
 writeFileStrSync("README.md", s);
 
 console.log(s);
-
-// const countWords = (s: string): number =>
-//   s.split(/\s+/g).filter(w => /[a-z0-9]/.test(w)).length;
-
-// const text = await readFileStr('input.txt');
-// const count = countWords(text);
-// console.log(`I read ${count} words.`);

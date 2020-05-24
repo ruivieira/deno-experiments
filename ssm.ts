@@ -2,7 +2,7 @@
  * INFO: state-space models (SSM) experiments
  */
 
-import * as c from "./linalg/core.ts";
+import * as c from "./mentat/linalg/core.ts";
 import { rnorm } from "./bayesjs/mcmc.ts";
 import * as mvn from "./mvngaussian.ts";
 
