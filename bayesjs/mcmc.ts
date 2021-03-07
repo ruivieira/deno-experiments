@@ -237,8 +237,8 @@ function nested_array_random_apply(a: Array<any>, fun: Function) {
 function get_option(option_name: string, options: any, defaul_value: any) {
   options = options || {};
   return options.hasOwnProperty(option_name) &&
-    options[option_name] !== undefined &&
-    options[option_name] !== null
+      options[option_name] !== undefined &&
+      options[option_name] !== null
     ? options[option_name]
     : defaul_value;
 } /** Version of get_option where the option should be a one or multi-dimensional
