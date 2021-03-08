@@ -10,4 +10,4 @@ tasks:
     - test: |
         cd deno-experiments
         /home/build/.deno/bin/deno fmt --check */**.ts
-        /home/build/.deno/bin/deno test
+        /home/build/.deno/bin/deno test -A --unstable tests/*.ts

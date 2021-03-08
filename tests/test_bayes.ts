@@ -1,6 +1,6 @@
 // The heights of the last ten American presidents in cm, from Kennedy to Obama
-import * as ld from "./mentat/stats/distributions.ts";
-import * as mcmc from "./bayesjs/mcmc.ts";
+import * as ld from "../mentat/stats/distributions.ts";
+import * as mcmc from "../bayesjs/mcmc.ts";
 
 let data = [183, 192, 182, 183, 177, 185, 188, 188, 182, 185];
 

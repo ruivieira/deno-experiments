@@ -1251,12 +1251,16 @@ export function Linspace(min: number, max: number, n: number): Float64Array {
     matrix[i] = i * dx + min;
   }
   return matrix;
-} /**
- * Creates an n x n identity "matrix"
+}
+
+/**
+ * Creates a n x n identity matrix
  * @param  {int} n number of rows and columns
  * @return {Float64Array}
+ *
+ *     const n = 3;
+ *     const diagonal = Eye(n);
  */
-
 export function Eye(n: number): Matrix {
   var matrix = new Float64Array(n * n);
   for (var i = 0; i < n; ++i) {

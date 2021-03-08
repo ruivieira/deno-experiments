@@ -45,7 +45,7 @@ interface UnivariateContinuousDistribution {
    *  by mean and sd. 
    *  Adapted from https://github.com/jstat/jstat/blob/master/src/special.js */
 
-function rnorm(mean: number, sd: number) {
+export function rnorm(mean: number, sd: number) {
   var u, v, x, y, q;
   do {
     u = Math.random();

@@ -1,12 +1,13 @@
 /**
  * INFO: tools to manipulate Bear's notes
  */
-import {open, DB} from "https://deno.land/x/sqlite/mod.ts";
-import {homedir} from "https://deno.land/std/node/os.ts";
+import {DB} from "https://deno.land/x/sqlite/mod.ts";
+
+const HOME = Deno.env.get("HOME");
 
 export async function getDB() {
-    return open(
-        `${homedir()}/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite`,
+    return new DB(
+        `${HOME}/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite`,
     );
 }
 

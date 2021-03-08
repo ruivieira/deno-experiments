@@ -1,9 +1,9 @@
 /**
  * INFO: a port of `bayes.js` to Deno
  */
+import { rnorm } from "../mentat/stats/distributions.ts";
 ////////// Helper Functions //////////
 //////////////////////////////////////
-
 /** Returns a random real number between min and max */
 export function runif(min: number, max: number) {
   return Math.random() * (max - min) + min;

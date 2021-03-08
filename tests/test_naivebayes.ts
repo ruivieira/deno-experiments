@@ -1,4 +1,4 @@
-import { NaiveBayes } from "./ml/naivebayes.ts";
+import { NaiveBayes } from "../ml/naivebayes.ts";
 
 var classifier = new NaiveBayes();
 

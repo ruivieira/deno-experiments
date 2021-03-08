@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
-import * as mentat from "./mentat/mod.ts";
+import * as mentat from "../mentat/mod.ts";
 
 Deno.test("Mentat :: utils :: Correct range size", () => {
   let r = mentat.utils.range(10);

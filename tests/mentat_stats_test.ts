@@ -1,7 +1,7 @@
 import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
-import * as mentat from "./mentat/mod.ts";
-import * as utils from "./mentat/utils.ts";
+import * as mentat from "../mentat/mod.ts";
+import * as utils from "../mentat/utils.ts";
 
 function assertEqualsDelta(
   actual: number,

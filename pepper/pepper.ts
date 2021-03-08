@@ -1,14 +1,17 @@
 import { expandGlobSync, WalkEntry } from "https://deno.land/std/fs/mod.ts";
 
-const HOME = Deno.env.get("HOME");
+class SourceFile {
+  private path: string;
+  constructor(path: string) {
+    this.path = path;
+  }
+}
 
-export function getAllMardownFiles(): Array<WalkEntry> {
+export class MarkdownFile extends SourceFile {}
+
+export function getAllMardownFiles(path: string): Array<WalkEntry> {
   const files = [];
-  for (
-    const file of expandGlobSync(
-      `${HOME}/Sync/code/sites/blog-source/**/*.md`,
-    )
-  ) {
+  for (const file of expandGlobSync(`${path}/**/*.md`)) {
     files.push(file);
   }
   return files;

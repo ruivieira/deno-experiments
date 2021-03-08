@@ -1,7 +1,7 @@
-import { MersenneTwister19937 } from "./randomjs/engine/MersenneTwister19937.ts";
-import { Random } from "./randomjs/Random.ts";
-import { Engine } from "./randomjs/types.ts";
-import { nativeMath } from "./randomjs/engine/nativeMath.ts";
+import { MersenneTwister19937 } from "../randomjs/engine/MersenneTwister19937.ts";
+import { Random } from "../randomjs/Random.ts";
+import { Engine } from "../randomjs/types.ts";
+import { nativeMath } from "../randomjs/engine/nativeMath.ts";
 
 abstract class RandomTest {
   distribution: Random;

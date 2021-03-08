@@ -17,4 +17,4 @@ jobs:
       - name: Run lint
         run: deno fmt --check */**.ts
       - name: Run tests
-        run: deno test
+        run: deno test -A --unstable tests/*.ts
