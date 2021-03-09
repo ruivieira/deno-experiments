@@ -2,8 +2,8 @@
 
 ![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg) [![builds.sr.ht status](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml.svg)](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml?)
 
-![Brontosaurus!](docs/brontosaurus.png)
+![Brontosaurus!](docs/mesozoic.jpg)
 
 {{#infos}}
-* [{{{path}}}]({{{path}}}), {{{info}}}
+- [{{{path}}}]({{{path}}}), {{{info}}}
 {{/infos}}
