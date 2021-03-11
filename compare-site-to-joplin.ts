@@ -1,5 +1,5 @@
 import {getJoplinDB, listTitles} from "./joplin/joplin.ts";
-import {getAllMardownFiles} from "./pepper/pepper.ts";
+import {getAllMardownFiles} from "./pepper/core/pepper.ts";
 import * as Colors from 'https://deno.land/std/fmt/colors.ts';
 
 const db = getJoplinDB();

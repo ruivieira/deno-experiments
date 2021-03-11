@@ -1,3 +1,6 @@
+/**
+ * INFO: Mastodon notification bot for website builds
+ */
 import mammut from "./mammut/index.ts";
 import { IClientConfig } from "./mammut/Client/index.ts";
 import { IAccessTokenData } from "./mammut/AccessToken/index.ts";

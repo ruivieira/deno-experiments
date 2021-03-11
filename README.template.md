@@ -7,3 +7,7 @@
 {{#infos}}
 - [{{{path}}}]({{{path}}}), {{{info}}}
 {{/infos}}
+
+<hr>
+
+* [coverage](https://ruivieira.srht.site/deno-experiments/coverage/index.html)

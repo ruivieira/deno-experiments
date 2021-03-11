@@ -1,3 +1,8 @@
 credentials.json
 .idea
 dost/docs/assets
+.DS_Store
+docs/tmp
+coverage.tar.gz
+.vscode
+test.sh
