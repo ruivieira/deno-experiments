@@ -5,7 +5,7 @@
 ![Brontosaurus!](docs/mesozoic.jpg)
 
 {{#infos}}
-- [{{{path}}}]({{{path}}}), {{{info}}}
+- [{{{path}}}]({{{path}}}), {{{info}}} [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/{{{path}}})]
 {{/infos}}
 
 <hr>
