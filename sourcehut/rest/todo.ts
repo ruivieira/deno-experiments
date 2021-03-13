@@ -30,6 +30,25 @@ interface BasicTicket {
     description: string
 }
 
+export enum TicketStatus {
+    REPORTED = "reported",
+    CONFIRMED = "confirmed",
+    IN_PROGRESS = "in_progress",
+    PENDING = "pending",
+    RESOLVED = "resolved"
+}
+
+export enum TicketResolution {
+    UNRESOLVED = "unresolved",
+    FIXED = "fixed",
+    IMPLEMENTED = "implemented",
+    WONT_FIX = "wont_fix",
+    BY_DESIGN = "by_design",
+    INVALID = "invalid",
+    DUPLICATE = "duplicate",
+    NOT_OUR_BUG = "not_our_bug"
+}
+
 interface Ticket extends BasicTicket {
 
     id: number,
@@ -38,8 +57,8 @@ interface Ticket extends BasicTicket {
     "created": string,
     "updated": string,
     "submitter"?: UserShort,
-    "status": string,
-    "resolution": string,
+    "status": TicketStatus,
+    "resolution": TicketResolution,
     "permissions"?: {
         "anonymous"?: string[],
         "submitter"?: string[],
@@ -49,14 +68,24 @@ interface Ticket extends BasicTicket {
     "assignees"?: string[]
 }
 
+/**
+ * Manages sourcehut issue trackers.
+ */
 export class Todo {
-    private readonly token: string
     static baseURL = "https://todo.sr.ht/api"
+    private readonly token: string
 
+    /**
+     * Initialise a issue tracker manager.
+     * @param token A OAuth1 token
+     */
     constructor(token: string) {
         this.token = token;
     }
 
+    /**
+     * List all trackers associated with the current user.
+     */
     getAllTrackers(): Promise<Collection<Tracker>> {
         return fetch(`${Todo.baseURL}/trackers`, {
             method: "GET",
@@ -69,6 +98,21 @@ export class Todo {
 
     getAllTrackerTickets(tracker: string): Promise<Collection<Ticket>> {
         return fetch(`${Todo.baseURL}/trackers/${tracker}/tickets`, {
+            method: "GET",
+            headers: {
+                'Authorization': `token ${this.token}`,
+            }
+
+        }).then(r => r.json())
+    }
+
+    /**
+     * Get specific ticket from a tracker.
+     * @param tracker The tracker's name
+     * @param id Ticket id
+     */
+    getTrackerTicket(tracker: string, id: number): Promise<Ticket> {
+        return fetch(`${Todo.baseURL}/trackers/${tracker}/tickets/${id}`, {
             method: "GET",
             headers: {
                 'Authorization': `token ${this.token}`,
