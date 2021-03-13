@@ -3,7 +3,10 @@
 ![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg) [![builds.sr.ht status](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml.svg)](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml?)
 
 ![Brontosaurus!](docs/mesozoic.jpg)
+ 
+## Projects
 
+- [srht.ts](srht.ts), sourcehut CLI [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/srht.ts)]
 - [rss/rss.ts](rss/rss.ts), a simple RSS parser [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/rss/rss.ts)]
 - [rss/opml.ts](rss/opml.ts), a simple OPML parser [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/rss/opml.ts)]
 - [misc/secrets.ts](misc/secrets.ts), simple `.config` reader [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/misc/secrets.ts)]
@@ -25,6 +28,11 @@
 - [mentat/stats/distributions.ts](mentat/stats/distributions.ts), a collection of log probability density functions (PDF) [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/stats/distributions.ts)]
 - [mentat/linalg/core.ts](mentat/linalg/core.ts), port of the _Bayes for physicists_ linear algebra library to Deno [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/linalg/core.ts)]
 
+## Graduated
+
+
+- [srhtclient](https://git.sr.ht/~ruivieira/srhtclient), A Deno client to sourcehut REST API
+
 <hr>
 
-* [coverage](https://ruivieira.srht.site/deno-experiments/coverage/index.html)
+- [coverage](https://ruivieira.srht.site/deno-experiments/coverage/index.html)

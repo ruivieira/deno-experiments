@@ -1,0 +1,7 @@
+[
+  {
+    "name": "srhtclient",
+    "description": "A Deno client to sourcehut REST API",
+    "url": "https://git.sr.ht/~ruivieira/srhtclient"
+  }
+]

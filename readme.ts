@@ -46,8 +46,13 @@ infos.sort((a, b) => {
     return 0;
 });
 
-let s = await renderFile(`README.template.md`, {
+// get the graduated projects
+const graduatedText = Deno.readTextFileSync(`./graduated.json`);
+const graduated = JSON.parse(graduatedText)
+
+const s = await renderFile(`README.template.md`, {
     infos: infos,
+    graduated: graduated
 });
 
 Deno.writeTextFile("README.md", s).then(r => console.log("Done!"));
