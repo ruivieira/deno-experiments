@@ -49,7 +49,7 @@ export class Env implements Entry {
 }
 
 export class Port implements Entry {
-  private port: number;
+  private readonly port: number;
   constructor(port: number) {
     this.port = port;
   }
@@ -58,13 +58,68 @@ export class Port implements Entry {
   }
 }
 
+export class Workdir implements Entry {
+  private readonly dir: string;
+  constructor(dir: string) {
+    this.dir = dir;
+  }
+  render(): string {
+    return `WORKDIR ${this.dir}`;
+  }
+}
+
+export class User implements Entry {
+  private readonly user: string;
+  constructor(user: string) {
+    this.user = user;
+  }
+  render(): string {
+    return `USER ${this.user}`;
+  }
+}
+
+export class Copy implements Entry {
+  private readonly source: string;
+  private readonly dest: string;
+  constructor(source: string, dest: string) {
+    this.source = source;
+    this.dest = dest;
+  }
+  render(): string {
+    return `COPY ${this.source} ${this.dest}`;
+  }
+}
+
+export class Add implements Entry {
+  private readonly source: string;
+  private readonly dest: string;
+  constructor(source: string, dest: string) {
+    this.source = source;
+    this.dest = dest;
+  }
+  render(): string {
+    return `ADD ${this.source} ${this.dest}`;
+  }
+}
+
+export class Run implements Entry {
+  private readonly command: string
+  constructor(command: string) {
+    this.command = command;
+  }
+  render(): string {
+    return `RUN ${this.command}`
+  }
+}
+
 export class Container {
   private entries: Entry[] = [];
   constructor(base: Base) {
     this.entries.push(base);
   }
-  add(entry: Entry) {
+  add(entry: Entry): Container {
     this.entries.push(entry);
+    return this;
   }
 
   render(): string {
