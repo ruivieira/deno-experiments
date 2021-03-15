@@ -167,6 +167,37 @@ export class Matrix {
     return result;
   }
 
+  addColumn(col: Vector | Array<number> | Float64Array) {
+    if (col instanceof Vector) {
+      col = col.data;
+    }
+    const new_data = new Float64Array(this.rows * this.cols + this.rows)
+    let shift = 0;
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0 ; j < this.cols ; j++) {
+        new_data[i * this.rows + j + shift] = this.data[i * this.rows + j];
+      }
+      shift += 1;
+    }
+    for (let i = 0; i < this.rows; i++) {
+        new_data[i * this.rows + this.cols + i] = col[i]
+    }
+
+    this.data = new_data
+    this.cols += 1
+    this.dim = new_data.length
+  }
+
+  // setCol(j: number, col: Vector | Array<number> | Float64Array): Matrix {
+  //   if (col instanceof Vector) {
+  //     col = col.data;
+  //   }
+  //   for (var i = 0; i < this.rows; ++i) {
+  //     this.data[i * this.cols + j] = col[i];
+  //   }
+  //   return this;
+  // }
+
   /**
  * Returns a copy of a "matrix"
  * @return {Float64Array}
@@ -245,6 +276,12 @@ export class Matrix {
       }
     }
     return sum;
+  }
+  /**
+   * Negates the matrix. All elements will be multiplied by `-1`.
+   */
+  neg(): Matrix {
+    return new Matrix(this.data.map(x => -x), this.rows, this.cols);
   }
   /**
  * Increment matrix (in place)
