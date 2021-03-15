@@ -5,8 +5,8 @@ interface Entry {
 }
 
 export class Base implements Entry {
-  private readonly from: string;
-  private readonly tag: string;
+  public readonly from: string;
+  public readonly tag: string;
 
   constructor(from: string, tag: string = "latest") {
     this.from = from;
@@ -49,7 +49,7 @@ export class Env implements Entry {
 }
 
 export class Port implements Entry {
-  private readonly port: number;
+  public readonly port: number;
   constructor(port: number) {
     this.port = port;
   }
@@ -103,18 +103,20 @@ export class Add implements Entry {
 }
 
 export class Run implements Entry {
-  private readonly command: string
+  private readonly command: string;
   constructor(command: string) {
     this.command = command;
   }
   render(): string {
-    return `RUN ${this.command}`
+    return `RUN ${this.command}`;
   }
 }
 
 export class Container {
-  private entries: Entry[] = [];
+  protected entries: Entry[] = [];
+  public readonly base: Base;
   constructor(base: Base) {
+    this.base = base;
     this.entries.push(base);
   }
   add(entry: Entry): Container {
@@ -125,5 +127,40 @@ export class Container {
   render(): string {
     const manifest = this.entries.map((x) => x.render());
     return manifest.join("\n");
+  }
+}
+
+export class Composer {
+  private services: Service[] = [];
+
+  constructor() {}
+  add(service: Service) {
+    this.services.push(service);
+  }
+}
+
+export class Service {
+  private readonly name: string;
+  private readonly container: Container;
+  private readonly ports: [Port, Port][] = [];
+  constructor(name: string, container: Container) {
+    this.name = name;
+    this.container = container;
+  }
+  addPorts(a: Port, b: Port) {
+    this.ports.push([a, b]);
+  }
+  addPort(p: Port) {
+    this.ports.push([p, p]);
+  }
+  render(): string {
+    const ports = this.ports
+      .map((x) => `              - "${x[0].port}":"${x[1].port}"`)
+      .join("\n");
+    return `    ${this.name}:
+          image: ${this.container.base.from}:${this.container.base.tag}
+          ports:
+${ports}
+  `;
   }
 }
