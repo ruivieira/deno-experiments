@@ -193,3 +193,4 @@ CMD ["run", "--allow-net", "example.ts"]`;
   const result = container.render();
   assertEquals(result, manifest);
 });
+});
