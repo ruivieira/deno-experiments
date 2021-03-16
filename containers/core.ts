@@ -1,199 +1,203 @@
 type Environment = { [p: string]: string };
 
 interface Entry {
-    render(): string;
+  render(): string;
 }
 
 export class Base implements Entry {
-    public readonly from: string;
-    public readonly tag: string;
+  public readonly from: string;
+  public readonly tag: string;
 
-    constructor(from: string, tag: string = "latest") {
-        this.from = from;
-        this.tag = tag;
-    }
+  constructor(from: string, tag: string = "latest") {
+    this.from = from;
+    this.tag = tag;
+  }
 
-    render(): string {
-        return `FROM ${this.from}:${this.tag}`;
-    }
+  render(): string {
+    return `FROM ${this.from}:${this.tag}`;
+  }
 }
 
 export class Command implements Entry {
-    private commands: string[] = [];
+  private commands: string[] = [];
 
-    constructor() {
-    }
+  constructor() {
+  }
 
-    add(cmd: string): Command {
-        this.commands.push(cmd);
-        return this;
-    }
+  add(cmd: string): Command {
+    this.commands.push(cmd);
+    return this;
+  }
 
-    render(): string {
-        const c = this.commands.map((c) => `"${c}"`).join(", ");
-        return `CMD [${c}]`;
-    }
+  render(): string {
+    const c = this.commands.map((c) => `"${c}"`).join(", ");
+    return `CMD [${c}]`;
+  }
 }
 
 export class Env implements Entry {
-    private envs: Environment = {};
+  private envs: Environment = {};
 
-    constructor() {
-    }
+  constructor() {
+  }
 
-    add(key: string, value: string): Env {
-        this.envs[key] = value;
-        return this;
-    }
+  add(key: string, value: string): Env {
+    this.envs[key] = value;
+    return this;
+  }
 
-    render(): string {
-        const result = [];
-        for (const key of Object.keys(this.envs)) {
-            result.push(`ENV ${key}=${this.envs[key]}`);
-        }
-        return result.join("\n");
+  render(): string {
+    const result = [];
+    for (const key of Object.keys(this.envs)) {
+      result.push(`ENV ${key}=${this.envs[key]}`);
     }
+    return result.join("\n");
+  }
 }
 
 export class Port implements Entry {
-    public readonly port: number;
+  public readonly port: number;
 
-    constructor(port: number) {
-        this.port = port;
-    }
+  constructor(port: number) {
+    this.port = port;
+  }
 
-    render(): string {
-        return `EXPOSE ${this.port}`;
-    }
+  render(): string {
+    return `EXPOSE ${this.port}`;
+  }
 }
 
 export class Workdir implements Entry {
-    private readonly dir: string;
+  private readonly dir: string;
 
-    constructor(dir: string) {
-        this.dir = dir;
-    }
+  constructor(dir: string) {
+    this.dir = dir;
+  }
 
-    render(): string {
-        return `WORKDIR ${this.dir}`;
-    }
+  render(): string {
+    return `WORKDIR ${this.dir}`;
+  }
 }
 
 export class User implements Entry {
-    private readonly user: string;
+  private readonly user: string;
 
-    constructor(user: string) {
-        this.user = user;
-    }
+  constructor(user: string) {
+    this.user = user;
+  }
 
-    render(): string {
-        return `USER ${this.user}`;
-    }
+  render(): string {
+    return `USER ${this.user}`;
+  }
 }
 
 export class Copy implements Entry {
-    private readonly source: string;
-    private readonly dest: string;
+  private readonly source: string;
+  private readonly dest: string;
 
-    constructor(source: string, dest: string) {
-        this.source = source;
-        this.dest = dest;
-    }
+  constructor(source: string, dest: string) {
+    this.source = source;
+    this.dest = dest;
+  }
 
-    render(): string {
-        return `COPY ${this.source} ${this.dest}`;
-    }
+  render(): string {
+    return `COPY ${this.source} ${this.dest}`;
+  }
 }
 
 export class Add implements Entry {
-    private readonly source: string;
-    private readonly dest: string;
+  private readonly source: string;
+  private readonly dest: string;
 
-    constructor(source: string, dest: string) {
-        this.source = source;
-        this.dest = dest;
-    }
+  constructor(source: string, dest: string) {
+    this.source = source;
+    this.dest = dest;
+  }
 
-    render(): string {
-        return `ADD ${this.source} ${this.dest}`;
-    }
+  render(): string {
+    return `ADD ${this.source} ${this.dest}`;
+  }
 }
 
 export class Run implements Entry {
-    private readonly command: string;
+  private readonly command: string;
 
-    constructor(command: string) {
-        this.command = command;
-    }
+  constructor(command: string) {
+    this.command = command;
+  }
 
-    render(): string {
-        return `RUN ${this.command}`;
-    }
+  render(): string {
+    return `RUN ${this.command}`;
+  }
 }
 
 export class Container {
-    public readonly base: Base;
-    private readonly _ports: Port[] = []
+  public readonly base: Base;
+  private readonly _ports: Port[] = [];
 
-    constructor(base: Base) {
-        this.base = base;
-        this._entries.push(base);
-    }
+  constructor(base: Base) {
+    this.base = base;
+    this._entries.push(base);
+  }
 
-    get ports(): Port[] {
-        return this._ports;
-    }
+  get ports(): Port[] {
+    return this._ports;
+  }
 
-    private _entries: Entry[] = [];
+  private _entries: Entry[] = [];
 
-    get entries(): Entry[] {
-        return this._entries;
-    }
+  get entries(): Entry[] {
+    return this._entries;
+  }
 
-    cmd(...args: string[]): Container {
-        const command = new Command()
-        args.forEach(x => command.add(x))
-        this._entries.push(command)
-        return this;
-    }
+  env(key: string, value: string): Container {
+    const env = new Env();
+    env.add(key, value);
+    this._entries.push(env);
+    return this;
+  }
 
-    run(data: string): Container {
-        this._entries.push(new Run(data))
-        return this;
-    }
+  cmd(...args: string[]): Container {
+    const command = new Command();
+    args.forEach((x) => command.add(x));
+    this._entries.push(command);
+    return this;
+  }
 
-    add(source: string, dest: string): Container {
-        this._entries.push(new Add(source, dest))
-        return this;
-    }
+  run(data: string): Container {
+    this._entries.push(new Run(data));
+    return this;
+  }
 
-    copy(source: string, dest: string): Container {
-        this._entries.push(new Copy(source, dest))
-        return this;
-    }
+  add(source: string, dest: string): Container {
+    this._entries.push(new Add(source, dest));
+    return this;
+  }
 
-    user(data: string): Container {
-        this._entries.push(new User(data))
-        return this;
-    }
+  copy(source: string, dest: string): Container {
+    this._entries.push(new Copy(source, dest));
+    return this;
+  }
 
-    workdir(data: string): Container {
-        this._entries.push(new Workdir(data))
-        return this;
-    }
+  user(data: string): Container {
+    this._entries.push(new User(data));
+    return this;
+  }
 
-    port(data: number): Container {
-        const port = new Port(data)
-        this._entries.push(port)
-        this._ports.push(port)
-        return this;
-    }
+  workdir(data: string): Container {
+    this._entries.push(new Workdir(data));
+    return this;
+  }
 
-    render(): string {
-        const manifest = this._entries.map((x) => x.render());
-        return manifest.join("\n");
-    }
+  port(data: number): Container {
+    const port = new Port(data);
+    this._entries.push(port);
+    this._ports.push(port);
+    return this;
+  }
+
+  render(): string {
+    const manifest = this._entries.map((x) => x.render());
+    return manifest.join("\n");
+  }
 }
-
-
-

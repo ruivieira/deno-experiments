@@ -1,15 +1,4 @@
-import {
-  Base,
-  Command,
-  Container,
-  Env,
-  Port,
-  Workdir,
-  User,
-  Copy,
-  Run,
-  Add
-} from "../containers/core.ts";
+import { Base, Container, Port } from "../containers/core.ts";
 
 import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
@@ -26,9 +15,7 @@ Deno.test("Containers :: core :: CMD (full)", () => {
 CMD ["run", "--allow-net", "example.ts"]`;
   const base = new Base("hayd/alpine-deno", "1.8.1");
   const container = new Container(base);
-  const commands = new Command();
-  commands.add("run").add("--allow-net").add("example.ts");
-  container.add(commands);
+  container.cmd("run", "--allow-net", "example.ts");
   const result = container.render();
   assertEquals(result, manifest);
 });
@@ -40,13 +27,8 @@ ENV HOME=test
 CMD ["run", "--allow-net", "example.ts"]`;
   const base = new Base("hayd/alpine-deno", "1.8.1");
   const container = new Container(base);
-  const environment = new Env();
-  environment.add("foo", "bar").add("HOME", "test");
-  container.add(environment);
-  const commands = new Command();
-  commands.add("run").add("--allow-net").add("example.ts");
-  container.add(commands);
-
+  container.env("foo", "bar").env("HOME", "test");
+  container.cmd("run", "--allow-net", "example.ts");
   const result = container.render();
   assertEquals(result, manifest);
 });
@@ -60,14 +42,9 @@ CMD ["run", "--allow-net", "example.ts"]`;
   const base = new Base("hayd/alpine-deno", "1.8.1");
   const container = new Container(base);
   const port = new Port(8080);
-  container.add(port);
-  const environment = new Env();
-  environment.add("foo", "bar").add("HOME", "test");
-  container.add(environment);
-  const commands = new Command();
-  commands.add("run").add("--allow-net").add("example.ts");
-  container.add(commands);
-
+  container.port(8080)
+    .env("foo", "bar").env("HOME", "test")
+    .cmd("run", "--allow-net", "example.ts");
   const result = container.render();
   assertEquals(result, manifest);
 });
@@ -81,17 +58,10 @@ ENV HOME=test
 CMD ["run", "--allow-net", "example.ts"]`;
   const base = new Base("hayd/alpine-deno", "1.8.1");
   const container = new Container(base);
-  const port = new Port(8080);
-  container.add(port);
-  const workdir = new Workdir("/app");
-  container.add(workdir);
-  const environment = new Env();
-  environment.add("foo", "bar").add("HOME", "test");
-  container.add(environment);
-  const commands = new Command();
-  commands.add("run").add("--allow-net").add("example.ts");
-  container.add(commands);
-
+  container.port(8080)
+    .workdir("/app")
+    .env("foo", "bar").env("HOME", "test")
+    .cmd("run", "--allow-net", "example.ts");
   const result = container.render();
   assertEquals(result, manifest);
 });
@@ -106,19 +76,11 @@ ENV HOME=test
 CMD ["run", "--allow-net", "example.ts"]`;
   const base = new Base("hayd/alpine-deno", "1.8.1");
   const container = new Container(base);
-  const port = new Port(8080);
-  container.add(port);
-  const user = new User("deno");
-  container.add(user);
-  const workdir = new Workdir("/app");
-  container.add(workdir);
-  const environment = new Env();
-  environment.add("foo", "bar").add("HOME", "test");
-  container.add(environment);
-  const commands = new Command();
-  commands.add("run").add("--allow-net").add("example.ts");
-  container.add(commands);
-
+  container.port(8080)
+    .user("deno")
+    .workdir("/app")
+    .env("foo", "bar").env("HOME", "test")
+    .cmd("run", "--allow-net", "example.ts");
   const result = container.render();
   assertEquals(result, manifest);
 });
@@ -134,21 +96,12 @@ ENV HOME=test
 CMD ["run", "--allow-net", "example.ts"]`;
   const base = new Base("hayd/alpine-deno", "1.8.1");
   const container = new Container(base);
-  const port = new Port(8080);
-  container.add(port);
-  const user = new User("deno");
-  container.add(user);
-  const copy = new Copy("example.ts", ".");
-  container.add(copy);
-  const workdir = new Workdir("/app");
-  container.add(workdir);
-  const environment = new Env();
-  environment.add("foo", "bar").add("HOME", "test");
-  container.add(environment);
-  const commands = new Command();
-  commands.add("run").add("--allow-net").add("example.ts");
-  container.add(commands);
-
+  container.port(8080)
+    .user("deno")
+    .copy("example.ts", ".")
+    .workdir("/app")
+    .env("foo", "bar").env("HOME", "test")
+    .cmd("run", "--allow-net", "example.ts");
   const result = container.render();
   assertEquals(result, manifest);
 });
@@ -158,8 +111,7 @@ Deno.test("Containers :: core :: RUN (full)", () => {
 RUN deno cache example.ts`;
   const base = new Base("hayd/alpine-deno", "1.8.1");
   const container = new Container(base);
-  const run = new Run("deno cache example.ts")
-  container.add(run);
+  container.run("deno cache example.ts");
   const result = container.render();
   assertEquals(result, manifest);
 });
@@ -175,22 +127,12 @@ ENV HOME=test
 CMD ["run", "--allow-net", "example.ts"]`;
   const base = new Base("hayd/alpine-deno", "1.8.1");
   const container = new Container(base);
-  const port = new Port(8080);
-  container.add(port);
-  const user = new User("deno");
-  container.add(user);
-  const add = new Add(".", ".");
-  container.add(add);
-  const workdir = new Workdir("/app");
-  container.add(workdir);
-  const environment = new Env();
-  environment.add("foo", "bar").add("HOME", "test");
-  container.add(environment);
-  const commands = new Command();
-  commands.add("run").add("--allow-net").add("example.ts");
-  container.add(commands);
-
+  container.port(8080)
+    .user("deno")
+    .add(".", ".")
+    .workdir("/app")
+    .env("foo", "bar").env("HOME", "test")
+    .cmd("run", "--allow-net", "example.ts");
   const result = container.render();
   assertEquals(result, manifest);
-});
 });
