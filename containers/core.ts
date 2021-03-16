@@ -133,10 +133,15 @@ export class Run implements Entry {
 
 export class Container {
     public readonly base: Base;
+    private readonly _ports: Port[] = []
 
     constructor(base: Base) {
         this.base = base;
         this._entries.push(base);
+    }
+
+    get ports(): Port[] {
+        return this._ports;
     }
 
     private _entries: Entry[] = [];
@@ -178,7 +183,9 @@ export class Container {
     }
 
     port(data: number): Container {
-        this._entries.push(new Port(data))
+        const port = new Port(data)
+        this._entries.push(port)
+        this._ports.push(port)
         return this;
     }
 
@@ -188,44 +195,5 @@ export class Container {
     }
 }
 
-export class Composer {
-    private services: Service[] = [];
 
-    constructor() {
-    }
-
-    add(service: Service) {
-        this.services.push(service);
-    }
-}
-
-export class Service {
-    private readonly name: string;
-    private readonly container: Container;
-    private readonly ports: [Port, Port][] = [];
-
-    constructor(name: string, container: Container) {
-        this.name = name;
-        this.container = container;
-    }
-
-    addPorts(a: Port, b: Port) {
-        this.ports.push([a, b]);
-    }
-
-    addPort(p: Port) {
-        this.ports.push([p, p]);
-    }
-
-    render(): string {
-        const ports = this.ports
-            .map((x) => `              - "${x[0].port}":"${x[1].port}"`)
-            .join("\n");
-        return `    ${this.name}:
-          image: ${this.container.base.from}:${this.container.base.tag}
-          ports:
-${ports}
-  `;
-    }
-}
 
