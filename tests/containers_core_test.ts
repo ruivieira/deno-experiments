@@ -1,4 +1,4 @@
-import { Base, Container, Port } from "../../deno-boxes/core.ts";
+import { Base, Container, Port } from "https://deno.land/x/boxes@0.0.2/core.ts";
 
 import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
