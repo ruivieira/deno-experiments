@@ -1,4 +1,4 @@
-import * as c from "../containers/core.ts";
+import * as c from "../../deno-boxes/core.ts";
 
 const base = new c.Base("hayd/alpine-deno", "1.8.1");
 

@@ -1,5 +1,5 @@
-import * as c from "../containers/core.ts";
-import { Composer, Service } from "../containers/compose.ts";
+import * as c from "../../deno-boxes/core.ts";
+import { Composer, Service } from "../../deno-boxes/compose.ts";
 
 const base = new c.Base("hayd/alpine-deno", "1.8.1");
 

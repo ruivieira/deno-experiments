@@ -1,9 +1,9 @@
 # deno-experiments
 
-![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg) [![builds.sr.ht status](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml.svg)](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml?)
+![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg) [![builds.sr.ht status](https://builds.sr.ht/~ruivieira/deno-experiments.svg)](https://builds.sr.ht/~ruivieira/deno-experiments?)
 
 ![Brontosaurus!](docs/mesozoic.jpg)
- 
+
 ## Projects
 
 - [srht.ts](srht.ts), sourcehut CLI [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/srht.ts)]
@@ -15,8 +15,6 @@
 - [ssm.ts](ssm.ts), state-space models (SSM) experiments [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/ssm.ts)]
 - [bayesjs/mcmc.ts](bayesjs/mcmc.ts), a port of `bayes.js` to Deno [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/bayesjs/mcmc.ts)]
 - [randomjs/mod.ts](randomjs/mod.ts), a port of `random-js` to Deno [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/randomjs/mod.ts)]
-- [docker.ts](docker.ts), generate Dockerfiles for Deno scripts [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/docker.ts)]
-- [sourcehut/rest/todo.ts](sourcehut/rest/todo.ts), REST client for todo.sr.ht [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/sourcehut/rest/todo.ts)]
 - [jupyter/parse.ts](jupyter/parse.ts), Tools to parse Jupyter notebooks [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/jupyter/parse.ts)]
 - [mammut/index.ts](mammut/index.ts), Port of otiai10's `mammut` to Deno [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mammut/index.ts)]
 - [joplin/joplin.ts](joplin/joplin.ts), tools to manipulate Joplin's notes [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/joplin/joplin.ts)]
@@ -31,7 +29,8 @@
 ## Graduated
 
 
-- [srhtclient](https://git.sr.ht/~ruivieira/srhtclient), A Deno client to sourcehut REST API
+- [srhtclient](https://git.sr.ht/~ruivieira/srhtclient), A Deno client to sourcehut REST API 
+- [boxes](https://git.sr.ht/~ruivieira/boxes), A small DSL for building Dockerfiles or Docker compose files 
 
 <hr>
 

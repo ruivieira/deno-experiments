@@ -1,9 +1,9 @@
 # deno-experiments
 
-![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg) [![builds.sr.ht status](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml.svg)](https://builds.sr.ht/~ruivieira/deno-experiments/.build.yml?)
+![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg) [![builds.sr.ht status](https://builds.sr.ht/~ruivieira/deno-experiments.svg)](https://builds.sr.ht/~ruivieira/deno-experiments?)
 
 ![Brontosaurus!](docs/mesozoic.jpg)
- 
+
 ## Projects
 
 {{#infos}}
@@ -14,8 +14,7 @@
 
 {{#graduated}}
 
-- [{{{name}}}]({{{url}}}), {{{description}}}
-  {{/graduated}}
+- [{{{name}}}]({{{url}}}), {{{description}}} {{/graduated}}
 
 <hr>
 
