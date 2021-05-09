@@ -1,3 +1,6 @@
+/**
+ * INFO: Online browser for [Geometric firs](https://github.com/geometricfirs)
+ */
 import { VueApp } from "../Vue.ts";
 interface SearchTerms {
   terms: string;
@@ -61,10 +64,15 @@ export function show(searchTerms: SearchTerms) {
 export const app: VueApp = {
   el: "#app",
   created() {
-    fetchData(
-      "https://raw.githubusercontent.com/ruivieira/zsh.cheat/master/zsh.json"
-    ).then((data) => {
-      data.forEach((x) => (x["topic"] = "zsh"));
+    const topics = [
+      {
+        name: "zsh",
+        url:
+          "https://raw.githubusercontent.com/ruivieira/zsh.cheat/master/zsh.json",
+      },
+    ];
+    fetchData(topics[0].url).then((data) => {
+      data.forEach((x) => (x["topic"] = topics[0].name));
       this.snippets = data;
     });
   },

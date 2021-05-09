@@ -1,3 +1,6 @@
+/**
+ * INFO: Stubs for SCF Vue.js apps
+ */
 export interface VueApp {
   el: string;
   created: any;

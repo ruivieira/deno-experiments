@@ -9,6 +9,8 @@
 - [srht.ts](srht.ts), sourcehut CLI [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/srht.ts)]
 - [rss/rss.ts](rss/rss.ts), a simple RSS parser [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/rss/rss.ts)]
 - [rss/opml.ts](rss/opml.ts), a simple OPML parser [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/rss/opml.ts)]
+- [apps/Vue.ts](apps/Vue.ts), Stubs for SCF Vue.js apps [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/apps/Vue.ts)]
+- [syncthing/utils.ts](syncthing/utils.ts), Syncthing utilities [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/syncthing/utils.ts)]
 - [misc/secrets.ts](misc/secrets.ts), simple `.config` reader [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/misc/secrets.ts)]
 - [bear.ts](bear.ts), tools to manipulate Bear's notes [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/bear.ts)]
 - [syncthing/core.ts](syncthing/core.ts), Syncthing REST API client [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/syncthing/core.ts)]
@@ -26,6 +28,7 @@
 - [ml/naivebayes.ts](ml/naivebayes.ts), a port of ttezel's naive Bayes implementation [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/ml/naivebayes.ts)]
 - [mentat/stats/distributions.ts](mentat/stats/distributions.ts), a collection of log probability density functions (PDF) [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/stats/distributions.ts)]
 - [mentat/linalg/core.ts](mentat/linalg/core.ts), port of the _Bayes for physicists_ linear algebra library to Deno [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/linalg/core.ts)]
+- [apps/snippets/app.ts](apps/snippets/app.ts), Online browser for [Geometric firs](https://github.com/geometricfirs) [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/apps/snippets/app.ts)]
 
 ## Graduated
 
