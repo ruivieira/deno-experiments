@@ -61,7 +61,15 @@ export function show(searchTerms: SearchTerms) {
   console.log(`Just got this from the search: "${searchTerms.terms}".`);
 }
 
-export const app: VueApp = {
+interface Data {
+  snippets: Array<Snippet>;
+  searchTerms: string;
+  selectedSnippet?: Snippet;
+  parameters: any;
+  locked: boolean;
+}
+
+export const model: VueApp<Data> = {
   el: "#app",
   created() {
     const topics = [
@@ -77,7 +85,7 @@ export const app: VueApp = {
     });
   },
   methods: {
-    setSelectedSnippet(snippet: Snippet) {
+    setSelectedSnippet(this: Data, snippet: Snippet) {
       this.selectedSnippet = snippet;
       this.parameters = extractParameters(snippet.value);
     },
@@ -85,16 +93,16 @@ export const app: VueApp = {
   data: {
     snippets: [],
     searchTerms: "",
-    selectedSnippet: null,
+    selectedSnippet: undefined,
     parameters: {},
     locked: false,
   },
   computed: {
-    filteredSnippets() {
+    filteredSnippets(this: Data) {
       return filterSelection(this.snippets, this.searchTerms);
     },
-    compiledSnippet() {
-      return replaceParameter(this.selectedSnippet.value, this.parameters);
+    compiledSnippet(this: Data) {
+      return replaceParameter(this.selectedSnippet!.value, this.parameters);
     },
   },
 };
