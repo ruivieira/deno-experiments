@@ -16,6 +16,12 @@
 
 - [{{{name}}}]({{{url}}}), {{{description}}} {{/graduated}}
 
+## Apps
+
+{{#apps}}
+
+- [{{{name}}}]({{{url}}}), {{{description}}} {{/apps}}
+
 <hr>
 
 - [coverage](https://ruivieira.srht.site/deno-experiments/coverage/index.html)

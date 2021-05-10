@@ -1,11 +1,11 @@
 /**
  * INFO: Stubs for SCF Vue.js apps
  */
-export interface VueApp {
+
+export interface VueApp<T> {
   el: string;
-  created: any;
-  snippets?: any;
-  methods: any;
-  data: any;
-  computed: any;
+  created(): void;
+  methods: { [f: string]: (args?: any) => void };
+  data: T;
+  computed: { [f: string]: () => any };
 }

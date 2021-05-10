@@ -36,6 +36,11 @@
 - [srhtclient](https://git.sr.ht/~ruivieira/srhtclient), A Deno client to sourcehut REST API 
 - [boxes](https://git.sr.ht/~ruivieira/boxes), A small DSL for building Dockerfiles or Docker compose files 
 
+## Apps
+
+
+- [Geometric firs](https://ruivieira.github.io/deno-experiments/snippets), A snippet browser 
+
 <hr>
 
 - [coverage](https://ruivieira.srht.site/deno-experiments/coverage/index.html)

@@ -6,3 +6,4 @@ docs/tmp
 coverage.tar.gz
 .vscode
 test.sh
+*.bsdesign
