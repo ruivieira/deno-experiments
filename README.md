@@ -39,7 +39,7 @@
 ## Apps
 
 
-- [Geometric firs](https://ruivieira.github.io/deno-experiments/snippets), A snippet browser 
+- [Geometric firs](https://ruivieira.github.io/deno-experiments/snippets/index.html), A snippet browser 
 
 <hr>
 
