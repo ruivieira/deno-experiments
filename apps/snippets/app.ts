@@ -1,5 +1,5 @@
 /**
- * INFO: Online browser for [Geometric firs](https://github.com/geometricfirs)
+ * INFO: Online browser for Geometric firs
  */
 import { VueApp } from "../Vue.ts";
 interface SearchTerms {

@@ -1,5 +1,6 @@
-import { render, configure } from "https://deno.land/x/eta@v1.11.0/mod.ts"
-
+/**
+ * INFO: Generate macOS `launchd` plists
+ */
 export interface LaunchdOptions {
     key:string
     env?: string

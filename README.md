@@ -20,7 +20,9 @@
 - [jupyter/parse.ts](jupyter/parse.ts), Tools to parse Jupyter notebooks [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/jupyter/parse.ts)]
 - [mammut/index.ts](mammut/index.ts), Port of otiai10's `mammut` to Deno [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mammut/index.ts)]
 - [joplin/joplin.ts](joplin/joplin.ts), tools to manipulate Joplin's notes [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/joplin/joplin.ts)]
+- [sysadmin/launchd.ts](sysadmin/launchd.ts), Generate macOS `launchd` plists [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/sysadmin/launchd.ts)]
 - [pepper/core.ts](pepper/core.ts), Tools to manipulate and render Markdown [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/pepper/core.ts)]
+- [apps/snippets/app.ts](apps/snippets/app.ts), Online browser for Geometric firs [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/apps/snippets/app.ts)]
 - [mentat/utils.ts](mentat/utils.ts), assorted mathematical utility functions [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/utils.ts)]
 - [web/utils/sitemap.ts](web/utils/sitemap.ts), Simple utility to generate sitemaps [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/web/utils/sitemap.ts)]
 - [readme.ts](readme.ts), script to auto-generate this repo's `README.md` [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/readme.ts)]
@@ -28,7 +30,6 @@
 - [ml/naivebayes.ts](ml/naivebayes.ts), a port of ttezel's naive Bayes implementation [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/ml/naivebayes.ts)]
 - [mentat/stats/distributions.ts](mentat/stats/distributions.ts), a collection of log probability density functions (PDF) [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/stats/distributions.ts)]
 - [mentat/linalg/core.ts](mentat/linalg/core.ts), port of the _Bayes for physicists_ linear algebra library to Deno [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/linalg/core.ts)]
-- [apps/snippets/app.ts](apps/snippets/app.ts), Online browser for [Geometric firs](https://github.com/geometricfirs) [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/apps/snippets/app.ts)]
 
 ## Graduated
 
