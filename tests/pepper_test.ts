@@ -1,9 +1,9 @@
 import {
   getAllMardownFiles,
-  Link,
   MarkdownFile,
   parseWikiLink,
 } from "../pepper/core.ts";
+import { Link } from "../pepper/model.ts";
 
 import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
@@ -21,8 +21,8 @@ Deno.test("Pepper :: getAllMarkdownFiles :: correct name of files", () => {
 Deno.test("Pepper :: getAllMarkdownFiles :: create MarkdownFile", () => {
   const __dirname = new URL(".", import.meta.url).pathname;
   const files = getAllMardownFiles(`${__dirname}//assets`);
-  const mdFiles = files.map((x) =>
-    new MarkdownFile(x.path, x.name, new Date())
+  const mdFiles = files.map(
+    (x) => new MarkdownFile(x.path, x.name, new Date())
   );
   assertEquals(mdFiles.length, 3);
 });
