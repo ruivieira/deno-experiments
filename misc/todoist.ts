@@ -1,11 +1,12 @@
-import { Todoist } from "../external/todoist.ts";
 import {readSecrets} from "./secrets.ts"
 
 const tokens = readSecrets<any>("todoist")
 
-const td = new Todoist(tokens.token);
+const response = fetch("https://api.todoist.com/rest/v1/tasks", {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${tokens.token}`,
+    },
+  });
 
-let tasks = await td.getTasks();
-
-tasks?.forEach(task => console.log(task))
-console.log(tasks?.length + " tasks found");
+response.then(r => r.json()).then(r => console.log(r))

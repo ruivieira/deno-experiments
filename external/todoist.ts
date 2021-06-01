@@ -1,5 +1,9 @@
 type Resource = Record<string, unknown>;
 
+interface Task {
+  content: string
+}
+
 interface BodyParams {
   syncToken?: string;
   resourceTypes?: string[];
