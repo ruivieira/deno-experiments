@@ -1,13 +1,23 @@
 export interface Task {
   body: string;
-  done: boolean
+  status: Status;
+  priority: number;
+}
+
+export enum Status {
+    Done,
+    Todo,
+    Later
 }
 
 export class Todo implements Task {
   body: string;
-  done: boolean
-  constructor(body: string, done = false) {
+  status: Status
+  priority: number
+  constructor(body: string, status = Status.Todo, priority = 10) {
     this.body = body;
-    this.done = done
+    this.status = status
+    this.priority = priority
   }
 }
+
