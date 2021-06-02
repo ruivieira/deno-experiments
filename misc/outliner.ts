@@ -1,5 +1,5 @@
 import {globFiles} from "../common/fs.ts";
-import {Status, Task, Todo} from "../common/tasks/core.ts";
+import {Status, Task, Todo, toString} from "../common/tasks/core.ts";
 import * as Colors from "https://deno.land/std/fmt/colors.ts";
 
 export function getAllTasks(path: string): Array<Task> {
@@ -71,5 +71,5 @@ const tasks = getAllTasksByStatus("/Users/rui/notes/logseq", Status.Later);
 tasks
     .sort((a, b) => b.priority - a.priority)
     .forEach((task) => {
-        console.log(taskToString(task));
+        console.log(toString(task));
     });
