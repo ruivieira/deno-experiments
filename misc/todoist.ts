@@ -1,12 +1,18 @@
-import {readSecrets} from "./secrets.ts"
+import {readSecrets} from "./secrets.ts";
+import {Todoist} from "../common/tasks/todoist.ts";
 
-const tokens = readSecrets<any>("todoist")
+const tokens = readSecrets<any>("todoist");
 
-const response = fetch("https://api.todoist.com/rest/v1/tasks", {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${tokens.token}`,
-    },
-  });
+const todoist = new Todoist(tokens.token);
 
-response.then(r => r.json()).then(r => console.log(r))
+const tasks = await todoist.getAllTasks();
+
+console.log(tasks.map((t) => t.content));
+
+// try with a project
+
+const projTasks = await todoist.getTasks({
+    project_id: 1234
+})
+
+console.log(projTasks.map((t) => t.content));
