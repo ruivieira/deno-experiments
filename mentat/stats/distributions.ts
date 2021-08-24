@@ -34,6 +34,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
+import { Matrix, SVDResult, Vector } from "../linalg/core.ts";
 import { range } from "../utils.ts";
 
 interface UnivariateContinuousDistribution {
@@ -41,9 +42,14 @@ interface UnivariateContinuousDistribution {
   sampleN(n: number): Array<number>;
 }
 
+interface MultivariateContinuousDistribution {
+  sample(): number[];
+  sampleN(n: number): Array<number[]>;
+}
+
 /** Returns a random real number from a normal distribbution defined
-   *  by mean and sd. 
-   *  Adapted from https://github.com/jstat/jstat/blob/master/src/special.js */
+ *  by mean and sd.
+ *  Adapted from https://github.com/jstat/jstat/blob/master/src/special.js */
 
 export function rnorm(mean: number, sd: number) {
   var u, v, x, y, q;
@@ -52,7 +58,7 @@ export function rnorm(mean: number, sd: number) {
     v = 1.7156 * (Math.random() - 0.5);
     x = u - 0.449871;
     y = Math.abs(v) + 0.386595;
-    q = x * x + y * (0.19600 * y - 0.25472 * x);
+    q = x * x + y * (0.196 * y - 0.25472 * x);
   } while (q > 0.27597 && (q > 0.27846 || v * v > -4 * Math.log(u) * u * u));
 
   return (v / u) * sd + mean;
@@ -61,34 +67,13 @@ export function rnorm(mean: number, sd: number) {
 // Returns the error function erf(x)
 function erf(x: number): number {
   const cof = [
-    -1.3026537197817094,
-    6.4196979235649026e-1,
-    1.9476473204185836e-2,
-    -9.561514786808631e-3,
-    -9.46595344482036e-4,
-    3.66839497852761e-4,
-    4.2523324806907e-5,
-    -2.0278578112534e-5,
-    -1.624290004647e-6,
-    1.303655835580e-6,
-    1.5626441722e-8,
-    -8.5238095915e-8,
-    6.529054439e-9,
-    5.059343495e-9,
-    -9.91364156e-10,
-    -2.27365122e-10,
-    9.6467911e-11,
-    2.394038e-12,
-    -6.886027e-12,
-    8.94487e-13,
-    3.13092e-13,
-    -1.12708e-13,
-    3.81e-16,
-    7.106e-15,
-    -1.523e-15,
-    -9.4e-17,
-    1.21e-16,
-    -2.8e-17,
+    -1.3026537197817094, 6.4196979235649026e-1, 1.9476473204185836e-2,
+    -9.561514786808631e-3, -9.46595344482036e-4, 3.66839497852761e-4,
+    4.2523324806907e-5, -2.0278578112534e-5, -1.624290004647e-6,
+    1.30365583558e-6, 1.5626441722e-8, -8.5238095915e-8, 6.529054439e-9,
+    5.059343495e-9, -9.91364156e-10, -2.27365122e-10, 9.6467911e-11,
+    2.394038e-12, -6.886027e-12, 8.94487e-13, 3.13092e-13, -1.12708e-13,
+    3.81e-16, 7.106e-15, -1.523e-15, -9.4e-17, 1.21e-16, -2.8e-17,
   ];
   var j = cof.length - 1;
   var isneg = false;
@@ -117,7 +102,7 @@ function erf(x: number): number {
 // Returns the complmentary error function erfc(x)
 function erfc(x: number): number {
   return 1 - erf(x);
-}// Returns the inverse of the complementary error function
+} // Returns the inverse of the complementary error function
 
 function erfcinv(p: number): number {
   var j = 0;
@@ -128,15 +113,16 @@ function erfcinv(p: number): number {
   if (p <= 0) {
     return 100;
   }
-  pp = (p < 1) ? p : 2 - p;
+  pp = p < 1 ? p : 2 - p;
   t = Math.sqrt(-2 * Math.log(pp / 2));
-  x = -0.70711 * ((2.30753 + t * 0.27061) /
-      (1 + t * (0.99229 + t * 0.04481)) - t);
+  x =
+    -0.70711 *
+    ((2.30753 + t * 0.27061) / (1 + t * (0.99229 + t * 0.04481)) - t);
   for (; j < 2; j++) {
     err = erfc(x) - pp;
     x += err / (1.12837916709551257 * Math.exp(-x * x) - x * err);
   }
-  return (p < 1) ? x : -x;
+  return p < 1 ? x : -x;
 }
 
 // Distribution
@@ -151,12 +137,13 @@ export class Normal implements UnivariateContinuousDistribution {
     return Math.exp(
       -0.5 * Math.log(2 * Math.PI) -
         Math.log(this.std) -
-        Math.pow(x - this.mean, 2) / (2 * this.std * this.std),
+        Math.pow(x - this.mean, 2) / (2 * this.std * this.std)
     );
   }
   cdf(x: number): number {
-    return 0.5 *
-      (1 + erf((x - this.mean) / Math.sqrt(2 * this.std * this.std)));
+    return (
+      0.5 * (1 + erf((x - this.mean) / Math.sqrt(2 * this.std * this.std)))
+    );
   }
 
   inv(p: number): number {
@@ -173,18 +160,52 @@ export class Normal implements UnivariateContinuousDistribution {
   }
 }
 
+export class MultivariateNormal implements MultivariateContinuousDistribution {
+  private mean: number[];
+  private cov: Matrix;
+  private covSVD: SVDResult;
+  private sqrtS: Vector;
+  private scaledV: Matrix;
+
+  constructor(mean: number[], cov: Matrix) {
+    this.mean = mean;
+    this.cov = cov;
+    this.covSVD = cov.svd();
+    this.sqrtS = this.covSVD.S.map((x) => Math.sqrt(x));
+    this.scaledV = new Matrix(
+      this.covSVD.V.asNestedArray().map((row) => {
+        return row.map((val, colIdx) => {
+          return val * this.sqrtS.data[colIdx];
+        });
+      }),
+      this.covSVD.V.rows,
+      this.covSVD.V.cols
+    );
+  }
+
+  sample(): number[] {
+    const standardNormal = new Vector(
+      new Normal(0, 1).sampleN(this.mean.length)
+    );
+    const variants = this.scaledV
+      .transpose()
+      .multiply(standardNormal) as Vector;
+    // add the mean
+    return variants.asArray().map((variant, idx) => variant + this.mean[idx]);
+  }
+  sampleN(n: number): number[][] {
+    return range(n).map((_) => this.sample());
+  }
+}
+
 ////////// Helper functions //////////
 //////////////////////////////////////
 
 export function lgamma(x: number) {
   var j = 0;
   var cof = [
-    76.18009172947146,
-    -86.50532032941677,
-    24.01409824083091,
-    -1.231739572450155,
-    0.1208650973866179e-2,
-    -0.5395239384953e-5,
+    76.18009172947146, -86.50532032941677, 24.01409824083091,
+    -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5,
   ];
   var ser = 1.000000000190015;
   var xx, y, tmp;
@@ -193,7 +214,7 @@ export function lgamma(x: number) {
   for (; j < 6; j++) {
     ser += cof[j] / ++y;
   }
-  return log(2.5066282746310005 * ser / xx) - tmp;
+  return log((2.5066282746310005 * ser) / xx) - tmp;
 }
 
 export function lfactorial(n: number) {
@@ -224,8 +245,9 @@ export function beta(x: number, shape1: number, shape2: number) {
   if (shape1 === 1 && shape2 === 1) {
     return 0;
   } else {
-    return (shape1 - 1) * log(x) + (shape2 - 1) * log(1 - x) -
-      lbeta(shape1, shape2);
+    return (
+      (shape1 - 1) * log(x) + (shape2 - 1) * log(1 - x) - lbeta(shape1, shape2)
+    );
   }
 }
 
@@ -239,17 +261,23 @@ export function norm(x: number, mean: number, sd: number) {
 // the correlation.
 
 export function bivarnorm(x: any, mean: any, sd: any, corr: number) {
-  var z = pow(x[0] - mean[0], 2) / pow(sd[0], 2) +
+  var z =
+    pow(x[0] - mean[0], 2) / pow(sd[0], 2) +
     pow(x[1] - mean[1], 2) / pow(sd[1], 2) -
     (2 * corr * (x[0] - mean[0]) * (x[1] - mean[1])) / (sd[0] * sd[1]);
-  var normalizing_factor = -(log(2) + log(pi) + log(sd[0]) + log(sd[1]) +
-    0.5 * log(1 - pow(corr, 2)));
+  var normalizing_factor = -(
+    log(2) +
+    log(pi) +
+    log(sd[0]) +
+    log(sd[1]) +
+    0.5 * log(1 - pow(corr, 2))
+  );
   var bivar_log_dens = normalizing_factor - z / (2 * (1 - pow(corr, 2)));
   return bivar_log_dens;
 }
 
 export function laplace(x: number, location: number, scale: number) {
-  return (-abs(x - location) / scale) - log(2 * scale);
+  return -abs(x - location) / scale - log(2 * scale);
 }
 
 let dexp = laplace;
@@ -259,11 +287,12 @@ export function gamma(x: number, shape: number, rate: number) {
   if (x < 0) {
     return -Infinity;
   }
-  if ((x === 0 && shape === 1)) {
+  if (x === 0 && shape === 1) {
     return -log(scale);
   } else {
-    return (shape - 1) * log(x) - x / scale - lgamma(shape) -
-      shape * log(scale);
+    return (
+      (shape - 1) * log(x) - x / scale - lgamma(shape) - shape * log(scale)
+    );
   }
 }
 
@@ -278,8 +307,12 @@ export function lnorm(x: number, meanlog: number, sdlog: number) {
   if (x <= 0) {
     return -Infinity;
   }
-  return -log(x) - 0.5 * log(2 * pi) - log(sdlog) -
-    pow(log(x) - meanlog, 2) / (2 * sdlog * sdlog);
+  return (
+    -log(x) -
+    0.5 * log(2 * pi) -
+    log(sdlog) -
+    pow(log(x) - meanlog, 2) / (2 * sdlog * sdlog)
+  );
 }
 
 export function pareto(x: number, scale: number, shape: number) {
@@ -291,8 +324,12 @@ export function pareto(x: number, scale: number, shape: number) {
 
 export function t(x: number, location: number, scale: number, df: number) {
   df = df > 1e100 ? 1e100 : df;
-  return lgamma((df + 1) / 2) - lgamma(df / 2) - log(sqrt(pi * df) * scale) +
-    log(pow(1 + (1 / df) * pow((x - location) / scale, 2), -(df + 1) / 2));
+  return (
+    lgamma((df + 1) / 2) -
+    lgamma(df / 2) -
+    log(sqrt(pi * df) * scale) +
+    log(pow(1 + (1 / df) * pow((x - location) / scale, 2), -(df + 1) / 2))
+  );
 } // This is a direct javascript translation of the R code used to evaluate
 // the log density of a weibull distribution:
 // https://github.com/wch/r-source/blob/b156e3a711967f58131e23c1b1dc1ea90e2f0c43/src/nmath/dweibull.c
@@ -302,7 +339,7 @@ export function weibull(x: number, shape: number, scale: number) {
   if (x === 0 && shape < 1) return Infinity;
   var tmp1 = pow(x / scale, shape - 1);
   var tmp2 = tmp1 * (x / scale);
-  return -tmp2 + log(shape * tmp1 / scale);
+  return -tmp2 + log((shape * tmp1) / scale);
 } // This is a direct javascript translation of the R code used to evaluate
 // the log density of a logistic distribution:
 // https://github.com/wch/r-source/blob/b156e3a711967f58131e23c1b1dc1ea90e2f0c43/src/nmath/dlogis.c
@@ -332,7 +369,7 @@ export function exp(x: number, rate: number) {
 }
 
 export function unif(x: number, min: number, max: number) {
-  return (x < min || x > max) ? -Infinity : log(1 / (max - min));
+  return x < min || x > max ? -Infinity : log(1 / (max - min));
 } ////////// Discrete distributions //////////
 ////////////////////////////////////////////
 
@@ -355,7 +392,7 @@ export function binom(x: number, size: number, prob: number) {
     return -Infinity;
   }
   if (prob === 0 || prob === 1) {
-    return (size * prob) === x ? 0 : -Infinity;
+    return size * prob === x ? 0 : -Infinity;
   }
   return lchoose(size, x) + x * log(prob) + (size - x) * log(1 - prob);
 }

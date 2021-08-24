@@ -26,7 +26,6 @@ THE SOFTWARE.
  */
 export let precision = 1e-6;
 
-
 export interface LUResult {
   L: Matrix;
   U: Matrix;
@@ -53,8 +52,8 @@ export class Vector {
       this.data = array;
     }
   }
-  map(f: Function): Vector {
-    this.data = this.data.map((x) => f.apply(x));
+  map(f: (x: number) => number): Vector {
+    this.data = this.data.map((x) => f(x));
     return this;
   }
   /**
@@ -95,6 +94,12 @@ export class Vector {
   copy(): Vector {
     return new Vector(this.data);
   }
+
+  asArray(): number[] {
+    const result: number[] = [];
+    this.data.forEach((x) => result.push(x));
+    return result;
+  }
 }
 
 /**
@@ -111,20 +116,17 @@ export class Matrix {
   cols: number;
   dim: number;
 
-  constructor(
-    array: Array<any> | Float64Array,
-    rows: number,
-    cols: number,
-  ) {
+  constructor(array: Array<any> | Float64Array, rows: number, cols: number) {
     if (array instanceof Array) {
-      if (Array.isArray(array[0])) { // flatten nested arrays
+      if (Array.isArray(array[0])) {
+        // flatten nested arrays
         rows = array.length;
         cols = array[0].length;
         this.data = new Float64Array(rows * cols);
         this.rows = rows;
         this.cols = cols;
-        for (var i = 0; i < rows; ++i) {
-          for (var j = 0; j < cols; ++j) {
+        for (let i = 0; i < rows; ++i) {
+          for (let j = 0; j < cols; ++j) {
             this.data[i * cols + j] = array[i][j];
           }
         }
@@ -141,20 +143,20 @@ export class Matrix {
     this.dim = this.data.length;
   }
   /**
- * String representation
- * @param  {int} precision (optional)
- * @return {string}
- */
+   * String representation
+   * @param  {int} precision (optional)
+   * @return {string}
+   */
   toString(precision: number): string {
     precision = precision || 4;
     var str = "";
     for (let i = 0; i < this.rows; ++i) {
-      str += (i == 0) ? "[[ " : " [ ";
+      str += i == 0 ? "[[ " : " [ ";
       str += this.data[i * this.cols + 0].toPrecision(precision);
       for (var j = 1; j < this.cols; ++j) {
         str += ", " + this.data[i * this.cols + j].toPrecision(precision);
       }
-      str += (i == this.rows - 1) ? " ]]" : " ],\n";
+      str += i == this.rows - 1 ? " ]]" : " ],\n";
     }
     return str;
   }
@@ -171,21 +173,21 @@ export class Matrix {
     if (col instanceof Vector) {
       col = col.data;
     }
-    const new_data = new Float64Array(this.rows * this.cols + this.rows)
+    const new_data = new Float64Array(this.rows * this.cols + this.rows);
     let shift = 0;
     for (let i = 0; i < this.rows; i++) {
-      for (let j = 0 ; j < this.cols ; j++) {
+      for (let j = 0; j < this.cols; j++) {
         new_data[i * this.rows + j + shift] = this.data[i * this.rows + j];
       }
       shift += 1;
     }
     for (let i = 0; i < this.rows; i++) {
-        new_data[i * this.rows + this.cols + i] = col[i]
+      new_data[i * this.rows + this.cols + i] = col[i];
     }
 
-    this.data = new_data
-    this.cols += 1
-    this.dim = new_data.length
+    this.data = new_data;
+    this.cols += 1;
+    this.dim = new_data.length;
   }
 
   // setCol(j: number, col: Vector | Array<number> | Float64Array): Matrix {
@@ -199,9 +201,9 @@ export class Matrix {
   // }
 
   /**
- * Returns a copy of a "matrix"
- * @return {Float64Array}
- */
+   * Returns a copy of a "matrix"
+   * @return {Float64Array}
+   */
   copy(): Matrix {
     var copy = new Float64Array(this.data);
 
@@ -211,10 +213,10 @@ export class Matrix {
   }
 
   /**
- * (in place) Each element is replaced by a function applied to the element index
- * @param  {function} f takes ([i, [j]]) as arguments
- * @return {Float64Array}
- */
+   * (in place) Each element is replaced by a function applied to the element index
+   * @param  {function} f takes ([i, [j]]) as arguments
+   * @return {Float64Array}
+   */
   rebuild(f: Function): Matrix {
     if (this.cols == 1) {
       for (var i = 0; i < this.rows; ++i) {
@@ -231,11 +233,12 @@ export class Matrix {
   }
 
   /**
- * Matrix transpose (copy)
- * @return {Float64Array}
- */
+   * Matrix transpose (copy)
+   * @return {Float64Array}
+   */
   transpose(): Matrix {
-    var m = this.rows, n = this.cols;
+    var m = this.rows,
+      n = this.cols;
     var transposed = Zeros(n, m);
     for (var i = 0; i < m; ++i) {
       for (var j = 0; j < n; ++j) {
@@ -245,10 +248,10 @@ export class Matrix {
     return transposed;
   }
   /**
- * cwise map function onto matrix copy
- * @param  {function} f arguments (A[i], i)
- * @return {Float64Array}
- */
+   * cwise map function onto matrix copy
+   * @param  {function} f arguments (A[i], i)
+   * @return {Float64Array}
+   */
   map(f: Function): Matrix {
     var A = Zeros(this.rows, this.cols);
     for (var i = 0; i < this.data.length; ++i) {
@@ -258,21 +261,19 @@ export class Matrix {
   }
 
   /**
- * Add two matrices and return sum
- * @param  {Float64Array} other
- * @return {Float64Array}
- */
+   * Add two matrices and return sum
+   * @param  {Float64Array} other
+   * @return {Float64Array}
+   */
   add(other: Matrix): Matrix {
-    if (
-      this.cols != other.cols || this.rows != other.rows
-    ) {
+    if (this.cols != other.cols || this.rows != other.rows) {
       throw "matrix dimension mismatch";
     }
     var sum = Zeros(this.rows, this.cols);
     for (var i = 0; i < this.rows; ++i) {
       for (var j = 0; j < this.cols; ++j) {
-        sum.data[i * this.cols + j] = this.data[i * this.cols + j] +
-          other.data[i * this.cols + j];
+        sum.data[i * this.cols + j] =
+          this.data[i * this.cols + j] + other.data[i * this.cols + j];
       }
     }
     return sum;
@@ -281,17 +282,19 @@ export class Matrix {
    * Negates the matrix. All elements will be multiplied by `-1`.
    */
   neg(): Matrix {
-    return new Matrix(this.data.map(x => -x), this.rows, this.cols);
+    return new Matrix(
+      this.data.map((x) => -x),
+      this.rows,
+      this.cols
+    );
   }
   /**
- * Increment matrix (in place)
- * @param  {Float64Array} other
- * @return {Float64Array}
- */
+   * Increment matrix (in place)
+   * @param  {Float64Array} other
+   * @return {Float64Array}
+   */
   increment(other: Matrix): Matrix {
-    if (
-      this.cols != other.cols || this.rows != other.rows
-    ) {
+    if (this.cols != other.cols || this.rows != other.rows) {
       throw "matrix dimension mismatch";
     }
     for (var i = 0; i < this.rows; ++i) {
@@ -303,14 +306,12 @@ export class Matrix {
   }
 
   /**
- * Decrement matrix (in place)
- * @param  {Float64Array} other
- * @return {Float64Array}
- */
+   * Decrement matrix (in place)
+   * @param  {Float64Array} other
+   * @return {Float64Array}
+   */
   decrement(other: Matrix): Matrix {
-    if (
-      this.cols != other.cols || this.rows != other.rows
-    ) {
+    if (this.cols != other.cols || this.rows != other.rows) {
       throw "matrix dimension mismatch";
     }
     for (var i = 0; i < this.rows; ++i) {
@@ -327,16 +328,14 @@ export class Matrix {
    * @return {Float64Array}
    */
   subtract(other: Matrix): Matrix {
-    if (
-      this.cols != other.cols || this.rows != other.rows
-    ) {
+    if (this.cols != other.cols || this.rows != other.rows) {
       throw "matrix dimension mismatch";
     }
     var difference = Zeros(this.rows, this.cols);
     for (var i = 0; i < this.rows; ++i) {
       for (var j = 0; j < this.cols; ++j) {
-        difference.data[i * this.cols + j] = this.data[i * this.cols + j] -
-          other.data[i * this.cols + j];
+        difference.data[i * this.cols + j] =
+          this.data[i * this.cols + j] - other.data[i * this.cols + j];
       }
     }
     return difference;
@@ -373,16 +372,15 @@ export class Matrix {
     var scaled = Zeros(this.rows, this.cols);
     for (var i = 0; i < this.rows; ++i) {
       for (var j = 0; j < this.cols; ++j) {
-        scaled.data[i * this.cols + j] = scalar *
-          this.data[i * this.cols + j];
+        scaled.data[i * this.cols + j] = scalar * this.data[i * this.cols + j];
       }
     }
     return scaled;
   }
   /**
- * cwise negate matrix copy
- * @return {Float64Array}
- */
+   * cwise negate matrix copy
+   * @return {Float64Array}
+   */
   negate(): Matrix {
     var A = Zeros(this.rows, this.cols);
     for (var i = 0; i < this.data.length; ++i) {
@@ -558,7 +556,7 @@ export class Matrix {
    */
   dot(other: Matrix | Vector): number {
     var prod = 0;
-    for (var i = 0; i < this.data.length; ++i) {
+    for (let i = 0; i < this.data.length; ++i) {
       prod += this.data[i] * other.data[i];
     }
     return prod;
@@ -570,19 +568,19 @@ export class Matrix {
    * @return {Float64Array}
    */
   multiply(other: Matrix | Vector): Matrix | Vector {
-    let A = this;
-    let B = other;
-    var n = A.rows;
-    var l = A.cols;
+    // let A = this;
+    const B = other;
+    var n = this.rows;
+    var l = this.cols;
     if (B instanceof Matrix) {
-      if (A.cols != B.rows) throw "multiply() dimension mismatch";
-      let m = B.cols;
-      var C = Zeros(n, m);
-      for (var i = 0; i < n; ++i) {
-        for (var j = 0; j < m; ++j) {
-          var cij = 0;
-          for (var k = 0; k < l; ++k) {
-            cij += A.data[i * l + k] * B.data[k * m + j];
+      if (this.cols != B.rows) throw "multiply() dimension mismatch";
+      const m = B.cols;
+      const C = Zeros(n, m);
+      for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < m; ++j) {
+          let cij = 0;
+          for (let k = 0; k < l; ++k) {
+            cij += this.data[i * l + k] * B.data[k * m + j];
           }
           C.data[i * m + j] = cij;
         }
@@ -590,10 +588,10 @@ export class Matrix {
       return C;
     } else {
       // matrix-vector product
-      let V = Vector.zeros(n);
-      for (var i = 0; i < n; ++i) {
-        for (var j = 0; j < l; ++j) {
-          V.data[i] += A.data[i * l + j] * B.data[j];
+      const V = Vector.zeros(n);
+      for (let i = 0; i < n; ++i) {
+        for (let j = 0; j < l; ++j) {
+          V.data[i] += this.data[i * l + j] * B.data[j];
         }
       }
       return V;
@@ -624,9 +622,7 @@ export class Matrix {
     for (var j = 0; j < n; ++j) {
       var max = j;
       for (var i = j; i < n; ++i) {
-        if (
-          Math.abs(this.data[i * n + j]) > Math.abs(this.data[max * n + j])
-        ) {
+        if (Math.abs(this.data[i * n + j]) > Math.abs(this.data[max * n + j])) {
           max = i;
         }
       }
@@ -665,20 +661,19 @@ export class Matrix {
     let n = this.cols;
     var s = 0.0;
     for (let i = 0; i < n; ++i) {
-      for (let j = 0; j < (i + 1); ++j) {
+      for (let j = 0; j < i + 1; ++j) {
         s = 0.0;
         for (let k = 0; k < j; ++k) {
           s += this.data[i * n + k] * this.data[j * n + k];
         }
         if (i != j) this.data[j * n + i] = 0;
-        if (
-          i == j && this.data[i * n + i] - s < 0
-        ) {
+        if (i == j && this.data[i * n + i] - s < 0) {
           throw "chol_inplace() matrix not positive definite";
         }
-        this.data[i * n + j] = (i == j)
-          ? Math.sqrt(this.data[i * n + i] - s)
-          : ((this.data[i * n + j] - s) / this.data[j * n + j]);
+        this.data[i * n + j] =
+          i == j
+            ? Math.sqrt(this.data[i * n + i] - s)
+            : (this.data[i * n + j] - s) / this.data[j * n + j];
       }
     }
     return this;
@@ -693,13 +688,14 @@ export class Matrix {
   }
 
   /**
-     * Solves Lx = b using foward substitution, updates b
-     * @param  {Float64Array} b rhs
-     * @return {Float64Array}
-     */
+   * Solves Lx = b using foward substitution, updates b
+   * @param  {Float64Array} b rhs
+   * @return {Float64Array}
+   */
   fsolve_inplace(b: Vector): Vector {
     var L = this;
-    var m = L.rows, n = L.cols;
+    var m = L.rows,
+      n = L.cols;
     for (var i = 0; i < n; ++i) {
       var s = 0.0;
       for (var j = 0; j < i; ++j) {
@@ -711,10 +707,10 @@ export class Matrix {
   }
 
   /**
-     * Solves Lx = b using foward substitution
-     * @param  {Float64Array} b rhs
-     * @return {Float64Array}
-     */
+   * Solves Lx = b using foward substitution
+   * @param  {Float64Array} b rhs
+   * @return {Float64Array}
+   */
   fsolve(b: Vector): Vector {
     return this.fsolve_inplace(b.copy());
   }
@@ -760,9 +756,9 @@ export class Matrix {
   //   };
 
   /**
-     * Computes the matrix inverse using PA = LU decomposition
-     * @return {Float64Array} A^-1
-     */
+   * Computes the matrix inverse using PA = LU decomposition
+   * @return {Float64Array} A^-1
+   */
   lu_inverse(): Matrix {
     let res = this.lu();
     let P = res.P;
@@ -778,14 +774,15 @@ export class Matrix {
   }
 
   /**
- * Solves Ux = b using backward substitution, updates b
- * @param  {Float64Array} b rhs
- * @param  {object} options {transpose: false}
- * @return {Float64Array}
- */
+   * Solves Ux = b using backward substitution, updates b
+   * @param  {Float64Array} b rhs
+   * @param  {object} options {transpose: false}
+   * @return {Float64Array}
+   */
   bsolve_inplace(b: Vector, options?: any): Vector {
     var U = this;
-    var m = U.rows, n = U.cols;
+    var m = U.rows,
+      n = U.cols;
     options = options || {};
     var transpose = options.hasOwnProperty("transpose")
       ? options.transpose
@@ -821,9 +818,9 @@ export class Matrix {
   //   };
 
   /**
-     * Computes the matrix inverse using LL^T decomposition
-     * @return {Float64Array} A^-1
-     */
+   * Computes the matrix inverse using LL^T decomposition
+   * @return {Float64Array} A^-1
+   */
   llt_inverse(): Matrix {
     var L = this.chol();
     var inverse = Zeros(this.rows, this.cols);
@@ -969,7 +966,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
     var temp;
     //Compute the thin SVD from G. H. Golub and C. Reinsch, Numer. Math. 14, 403-420 (1970)
     var prec = Math.pow(2, -52); // assumes double prec
-    var tolerance = 1.e-64 / prec;
+    var tolerance = 1e-64 / prec;
     var itmax = 50;
     var c = 0;
     var i = 0;
@@ -994,11 +991,11 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
       a = Math.abs(a);
       b = Math.abs(b);
       if (a > b) {
-        return a * Math.sqrt(1.0 + (b * b / a / a));
+        return a * Math.sqrt(1.0 + (b * b) / a / a);
       } else if (b == 0.0) {
         return a;
       }
-      return b * Math.sqrt(1.0 + (a * a / b / b));
+      return b * Math.sqrt(1.0 + (a * a) / b / b);
     };
 
     //Householder's reduction to bidiagonal form
@@ -1016,7 +1013,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
       s = 0.0;
       l = i + 1;
       for (j = i; j < m; j++) {
-        s += (u[j][i] * u[j][i]);
+        s += u[j][i] * u[j][i];
       }
       if (s <= tolerance) {
         g = 0.0;
@@ -1054,7 +1051,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
         for (j = l; j < m; j++) {
           s = 0.0;
           for (k = l; k < n; k++) {
-            s += (u[j][k] * u[i][k]);
+            s += u[j][k] * u[i][k];
           }
           for (k = l; k < n; k++) {
             u[j][k] += s * e[k];
@@ -1080,7 +1077,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
             s += u[i][k] * v[k][j];
           }
           for (k = l; k < n; k++) {
-            v[k][j] += (s * v[k][i]);
+            v[k][j] += s * v[k][i];
           }
         }
       }
@@ -1118,7 +1115,8 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
     // diagonalization of the bidiagonal form
     prec = prec * x;
     for (k = n - 1; k != -1; k += -1) {
-      for (var iteration = 0; iteration < itmax; iteration++) { // test f splitting
+      for (var iteration = 0; iteration < itmax; iteration++) {
+        // test f splitting
         var test_convergence = false;
         for (l = k; l != -1; l += -1) {
           if (Math.abs(e[l]) <= prec) {
@@ -1129,7 +1127,8 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
             break;
           }
         }
-        if (!test_convergence) { // cancellation of e[l] if l>0
+        if (!test_convergence) {
+          // cancellation of e[l] if l>0
           c = 0.0;
           s = 1.0;
           var l1 = l - 1;
@@ -1147,15 +1146,17 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
             for (j = 0; j < m; j++) {
               y = u[j][l1];
               z = u[j][i];
-              u[j][l1] = y * c + (z * s);
-              u[j][i] = -y * s + (z * c);
+              u[j][l1] = y * c + z * s;
+              u[j][i] = -y * s + z * c;
             }
           }
         }
         // test f convergence
         z = q[k];
-        if (l == k) { //convergence
-          if (z < 0.0) { //q[k] is made non-negative
+        if (l == k) {
+          //convergence
+          if (z < 0.0) {
+            //q[k] is made non-negative
             q[k] = -z;
             for (j = 0; j < n; j++) {
               v[j][k] = -v[j][k];
@@ -1251,12 +1252,12 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
       }
     }
 
-    let U = new Matrix(u, this.rows, this.cols);
+    const U = new Matrix(u, this.rows, this.cols);
     console.log(`u: ${u}`);
     console.log(`q: ${q}`);
     console.log(`v: ${v}`);
-    let S = new Vector(q);
-    let V = new Matrix(v, this.rows, this.cols);
+    const S = new Vector(q);
+    const V = new Matrix(v, this.rows, this.cols);
 
     return { U: U, S: S, V: V };
   }
@@ -1300,11 +1301,12 @@ export function Linspace(min: number, max: number, n: number): Float64Array {
  */
 export function Eye(n: number): Matrix {
   var matrix = new Float64Array(n * n);
-  for (var i = 0; i < n; ++i) {
+  for (let i = 0; i < n; ++i) {
     matrix[i * n + i] = 1;
   }
   return new Matrix(matrix, n, n);
-} /**
+}
+/**
  * Creates a "matrix" filled with ones
  * @param  {int} rows number of rows
  * @param  {int} cols number of columns
@@ -1318,7 +1320,8 @@ export function Ones(rows: number, cols: number): Matrix {
     matrix[i] = 1;
   }
   return new Matrix(matrix, rows, cols);
-} /**
+}
+/**
  * Creates a "matrix" filled with constant
  * @param  {float} const constant
  * @param  {int}   rows number of rows
@@ -1333,7 +1336,8 @@ export function Constant(constant: number, rows: number, cols: number): Matrix {
     matrix[i] = constant;
   }
   return new Matrix(matrix, rows, cols);
-} /**
+}
+/**
  * Build a "matrix" where each element is a function applied to element index
  * @param  {function} f    takes ([i, [j]]) as arguments
  * @param  {int}      rows number of rows
@@ -1350,7 +1354,8 @@ export function Build(f: Function, rows: number, cols: number) {
     }
   }
   return new Matrix(matrix.data, rows, cols);
-} /**
+}
+/**
  * Outer product (form matrix from vector tensor product)
  * @param  {Float64Array} u vector (column or row)
  * @param  {Float64Array} v vector (column or row)
