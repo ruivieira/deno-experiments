@@ -9,7 +9,7 @@ interface Info {
   info: string;
 }
 
-let infos: Array<Info> = [];
+const infos: Array<Info> = [];
 
 for (const fileInfo of walkSync(".")) {
   var fileExt = fileInfo.name.split(".").pop();
