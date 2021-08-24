@@ -53,23 +53,3 @@ export function parseLogSeqTask(line: string): Task {
     }
 }
 
-function taskToString(task: Task): string {
-    switch (task.status) {
-        case Status.Done:
-            return `${Colors.green("DONE")}\t[${task.priority}]\t${task.content}`;
-        case Status.Todo:
-            return `${Colors.brightRed("TODO")}\t[${task.priority}]\t${task.content}`;
-        case Status.Later:
-            return `${Colors.red("LATER")}\t[${task.priority}]\t${task.content}`;
-        default:
-            return "Unsupported task type";
-    }
-}
-
-// const tasks = getAllTasks("/Users/rui/notes/logseq");
-const tasks = getAllTasksByStatus("/Users/rui/notes/logseq", Status.Later);
-tasks
-    .sort((a, b) => b.priority - a.priority)
-    .forEach((task) => {
-        console.log(toString(task));
-    });
