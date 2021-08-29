@@ -1,3 +1,6 @@
+/**
+ * INFO: REST client for the todoist service
+ */
 import { Task, Status, Todo } from "./core.ts";
 import { qs } from "https://deno.land/x/deno_qs/mod.ts";
 
