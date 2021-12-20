@@ -1,4 +1,6 @@
 import { WalkEntry, expandGlobSync } from "https://deno.land/std/fs/mod.ts";
+import { basename } from "https://deno.land/std/path/posix.ts";
+
 /**
  * Return a list of files (recursively) with a specified extension.
  * @param path Starting path
@@ -21,4 +23,8 @@ export function globFiles(
     }
   }
   return files;
+}
+
+export function basenameNoExt(path: string, extension: string): string {
+  return basename(path).slice(0, -(extension.length + 1));
 }
