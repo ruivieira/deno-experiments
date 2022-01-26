@@ -1,6 +1,6 @@
 # deno-experiments
 
-![test](https://github.com/ruivieira/deno-experiments/workflows/test/badge.svg) [![builds.sr.ht status](https://builds.sr.ht/~ruivieira/deno-experiments.svg)](https://builds.sr.ht/~ruivieira/deno-experiments?)
+[![pipeline status](https://gitlab.com/ruivieira/deno-experiments/badges/master/pipeline.svg)](https://gitlab.com/ruivieira/deno-experiments/-/commits/master)
 
 ![Brontosaurus!](docs/mesozoic.jpg)
 
