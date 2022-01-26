@@ -1,7 +1,7 @@
 type Resource = Record<string, unknown>;
 
 interface Task {
-  content: string
+  content: string;
 }
 
 interface BodyParams {

@@ -7,10 +7,10 @@
  * As an example, `const s = readSecrets<any>("myapp", "keys.json")` will
  * read the values into a JSON object from `~/.config/myapp/keys.json`.
  * The values can then be extracted with `s.key1`, `s.key2`, etc.
- * 
+ *
  * @param topic The secret's topic
  * @param file The filename, `credentials.json` by default
- * @returns 
+ * @returns
  */
 export function readSecrets<T>(
   topic: string,

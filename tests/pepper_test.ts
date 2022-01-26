@@ -22,7 +22,7 @@ Deno.test("Pepper :: getAllMarkdownFiles :: create MarkdownFile", () => {
   const __dirname = new URL(".", import.meta.url).pathname;
   const files = getAllMardownFiles(`${__dirname}//assets`);
   const mdFiles = files.map(
-    (x) => new MarkdownFile(x.path, x.name, new Date())
+    (x) => new MarkdownFile(x.path, x.name, new Date()),
   );
   assertEquals(mdFiles.length, 3);
 });

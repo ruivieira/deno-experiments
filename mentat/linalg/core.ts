@@ -1,3 +1,4 @@
+// @ts-ignore for importing from nodejs
 import * as utils from "../utils.ts";
 /*
 Copyright (c) 2016 Chi Feng
@@ -962,7 +963,6 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
   */
 
   svd(): SVDResult {
-    let A = this;
     var temp;
     //Compute the thin SVD from G. H. Golub and C. Reinsch, Numer. Math. 14, 403-420 (1970)
     var prec = Math.pow(2, -52); // assumes double prec
@@ -974,7 +974,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
     var k = 0;
     var l = 0;
 
-    var u = A.copy().asNestedArray();
+    var u = this.copy().asNestedArray();
     var m = u.length;
 
     var n = u[0].length;
@@ -987,7 +987,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
     var v: Array<Array<number>> = utils.rep([n, n], 0);
     //	v.zero();
 
-    let pythag = (a: number, b: number) => {
+    const pythag = (a: number, b: number) => {
       a = Math.abs(a);
       b = Math.abs(b);
       if (a > b) {
@@ -1115,9 +1115,9 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
     // diagonalization of the bidiagonal form
     prec = prec * x;
     for (k = n - 1; k != -1; k += -1) {
-      for (var iteration = 0; iteration < itmax; iteration++) {
+      for (let iteration = 0; iteration < itmax; iteration++) {
         // test f splitting
-        var test_convergence = false;
+        let test_convergence = false;
         for (l = k; l != -1; l += -1) {
           if (Math.abs(e[l]) <= prec) {
             test_convergence = true;
@@ -1131,7 +1131,7 @@ It is apparently translated from http://stitchpanorama.sourceforge.net/Python/sv
           // cancellation of e[l] if l>0
           c = 0.0;
           s = 1.0;
-          var l1 = l - 1;
+          const l1 = l - 1;
           for (i = l; i < k + 1; i++) {
             f = s * e[i];
             e[i] = c * e[i];

@@ -1,4 +1,4 @@
-import { WalkEntry, expandGlobSync } from "https://deno.land/std/fs/mod.ts";
+import { expandGlobSync, WalkEntry } from "https://deno.land/std/fs/mod.ts";
 import { basename } from "https://deno.land/std/path/posix.ts";
 
 /**
@@ -10,7 +10,7 @@ import { basename } from "https://deno.land/std/path/posix.ts";
 export function globFiles(
   path: string,
   extension: string,
-  firstLevel = false
+  firstLevel = false,
 ): Array<WalkEntry> {
   const files = [];
   if (!firstLevel) {

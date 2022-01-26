@@ -12,9 +12,9 @@ export function runif(min: number, max: number) {
 export function runif_discrete(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 } /** Returns a deep clone of src, sort of... It only copies a limited
-   * number of types and, for example, function are not copied. 
-   * From http://davidwalsh.name/javascript-clone
-   */
+ * number of types and, for example, function are not copied.
+ * From http://davidwalsh.name/javascript-clone
+ */
 
 export function deep_clone(src: any): any {
   function mixin(dest: any, source: any, copyFunc: Function): any {
@@ -67,10 +67,10 @@ export function deep_clone(src: any): any {
   }
   return mixin(r, src, deep_clone);
 } /** Specialized clone function that only clones scalars and nested arrays where
-   * each array either consists of all arrays or all numbers. This function
-   * is meant as a fast way of cloning parameter draws within the mcmc sampling
-   * loop.
-   */
+ * each array either consists of all arrays or all numbers. This function
+ * is meant as a fast way of cloning parameter draws within the mcmc sampling
+ * loop.
+ */
 
 function clone_param_draw(x: Array<any>): Array<any> {
   if (Array.isArray(x)) {
@@ -88,23 +88,23 @@ function clone_param_draw(x: Array<any>): Array<any> {
     return x;
   }
 } /** Returns true if object is a number.
-   */
+ */
 
 function is_number(object: any): boolean {
   return typeof object == "number" ||
     (typeof object == "object" && object.constructor === Number);
 } /**
-   * Creates and initializes a (possibly multidimensional/nested) array.
-   * @param dim - An array giving the dimension of the array. For example,
-   *   [5] would yield a 5 element array, and [3,3] would yield a 3 by 3 matrix.
-   * @param init - A value or a function used to fill in the each element in
-   *   the array. If it is a function it should take no arguments, it will be 
-   *   evaluated once for each element, and it's return value will be used to
-   *   fill in each element.
-   * @example 
-   * // The following would return [[1,1],[1,1],[1,1]]
-   * create_array([2,3], 1)
-   */
+ * Creates and initializes a (possibly multidimensional/nested) array.
+ * @param dim - An array giving the dimension of the array. For example,
+ *   [5] would yield a 5 element array, and [3,3] would yield a 3 by 3 matrix.
+ * @param init - A value or a function used to fill in the each element in
+ *   the array. If it is a function it should take no arguments, it will be
+ *   evaluated once for each element, and it's return value will be used to
+ *   fill in each element.
+ * @example
+ * // The following would return [[1,1],[1,1],[1,1]]
+ * create_array([2,3], 1)
+ */
 
 function create_array(dim: any, init: any): Array<any> {
   var arr = new Array(dim[0]);
@@ -128,13 +128,13 @@ function create_array(dim: any, init: any): Array<any> {
   }
   return arr;
 } /**
-   * Return the dimensions of a possibly nested array as an array. For 
-   * example, array_dim( [[1, 2], [1, 2]] ) should return [2, 2]
-   * Assumes that all arrays inside another array are of the same length.
-   * @example
-   * // Should return [4, 2, 1]
-   * array_dim(create_array([4, 2, 1], 0))
-   */
+ * Return the dimensions of a possibly nested array as an array. For
+ * example, array_dim( [[1, 2], [1, 2]] ) should return [2, 2]
+ * Assumes that all arrays inside another array are of the same length.
+ * @example
+ * // Should return [4, 2, 1]
+ * array_dim(create_array([4, 2, 1], 0))
+ */
 
 function array_dim(a: Array<any>): Array<number> {
   if (Array.isArray(a[0])) {
@@ -143,10 +143,10 @@ function array_dim(a: Array<any>): Array<number> {
     return [a.length];
   }
 } /**
-   * Checks if two arrays are equal in the sense that they contain the same elements
-   * as judged by the "==" operator. Returns true or false.
-   * Adapted from http://stackoverflow.com/a/14853974/1001848
-   */
+ * Checks if two arrays are equal in the sense that they contain the same elements
+ * as judged by the "==" operator. Returns true or false.
+ * Adapted from http://stackoverflow.com/a/14853974/1001848
+ */
 
 function array_equal(a1: Array<any>, a2: Array<any>): boolean {
   if (a1.length != a2.length) return false;
@@ -162,10 +162,10 @@ function array_equal(a1: Array<any>, a2: Array<any>): boolean {
   }
   return true;
 } /**
-   * Traverses a possibly nested array a and applies fun to all "leaf nodes", 
-   * that is, values that are not arrays. Returns an array of the same size as
-   * a.
-   */
+ * Traverses a possibly nested array a and applies fun to all "leaf nodes",
+ * that is, values that are not arrays. Returns an array of the same size as
+ * a.
+ */
 
 function nested_array_apply(a: Array<any>, fun: Function) {
   if (Array.isArray(a)) {
@@ -178,9 +178,9 @@ function nested_array_apply(a: Array<any>, fun: Function) {
     return fun(a);
   }
 } /** Randomizing the array element order in-place. Using Durstenfeld
-   * shuffle algorithm. Adapted from here: 
-   * http://stackoverflow.com/a/12646864/1001848
-   */
+ * shuffle algorithm. Adapted from here:
+ * http://stackoverflow.com/a/12646864/1001848
+ */
 
 function shuffle_array(array: Array<any>): Array<any> {
   for (var i = array.length - 1; i > 0; i--) {
@@ -193,11 +193,11 @@ function shuffle_array(array: Array<any>): Array<any> {
 }
 
 /**
-   * Does the same thing as nested_array_apply, that is, traverses a possibly
-   * nested array a and applies fun to all "leaf nodes" and returns an array 
-   * of the same size as a. The difference is that nested_array_random_apply
-   * branches randomly.
-   */
+ * Does the same thing as nested_array_apply, that is, traverses a possibly
+ * nested array a and applies fun to all "leaf nodes" and returns an array
+ * of the same size as a. The difference is that nested_array_random_apply
+ * branches randomly.
+ */
 function nested_array_random_apply(a: Array<any>, fun: Function) {
   if (Array.isArray(a)) {
     var len = a.length;
@@ -218,17 +218,17 @@ function nested_array_random_apply(a: Array<any>, fun: Function) {
     return fun(a);
   }
 } /**
-   * Allows a pretty way of setting default options where the defults can be
-   * overridden by an options object.
-   *  @param option_name - the name of the option as a string
-   *  @param my_options - an option object that could have option_name 
-   *    as a member.
-   * @param defaul_value - defult value that is returned if option_name 
-   *   is not defined in my_options.
-   * @example
-   * var my_options = {pi: 3.14159}
-   * var pi = get_option("pi", my_options, 3.14)
-   */
+ * Allows a pretty way of setting default options where the defults can be
+ * overridden by an options object.
+ *  @param option_name - the name of the option as a string
+ *  @param my_options - an option object that could have option_name
+ *    as a member.
+ * @param defaul_value - defult value that is returned if option_name
+ *   is not defined in my_options.
+ * @example
+ * var my_options = {pi: 3.14159}
+ * var pi = get_option("pi", my_options, 3.14)
+ */
 
 // Pretty way of setting default options where the defaults can be overridden
 // by an options object. For example:
@@ -242,11 +242,10 @@ function get_option(option_name: string, options: any, defaul_value: any) {
     ? options[option_name]
     : defaul_value;
 } /** Version of get_option where the option should be a one or multi-dimensional
-   * array and where the default can be overridden either by a scalar or by an array.
-   * If it's a scalar the that scalar is used to initialize an array with 
-   * dim dimensions.
-   * 
-   */
+ * array and where the default can be overridden either by a scalar or by an array.
+ * If it's a scalar the that scalar is used to initialize an array with
+ * dim dimensions.
+ */
 
 var get_multidim_option = function (
   option_name: string,
@@ -269,10 +268,10 @@ var get_multidim_option = function (
 //////////////////////////////////////////////////////////////
 
 /**
-   * Returns a fixed (same every time) number that could be used to initialize
-   * a parameter of a certain type, possibly with lower and upper bounds.
-   * The possile types are "real", "int", and "binary".
-   */
+ * Returns a fixed (same every time) number that could be used to initialize
+ * a parameter of a certain type, possibly with lower and upper bounds.
+ * The possile types are "real", "int", and "binary".
+ */
 var param_init_fixed = function (
   type: ParameterType,
   lower: number,
@@ -309,19 +308,19 @@ var param_init_fixed = function (
 };
 
 /**
-   * Completes params_to_complete, an object containing parameter descriptions, 
-   * and initializes non-initialized parameters. This modified version of
-   * params_to_complete is returned as a deep copy and not modified in place.
-   * Initialization is done by supplying a param_init function with signature
-   * function(type, lower, upper) that should return a single number 
-   * (like param_init_fixed, for example).
-   * @example
-   * var params = { "mu": {"type": "real"} }
-   * params = complete_params(params);
-   * // params should now be:
-   * //  {"mu": { "type": "real", "dim": [1], "upper": Infinity,
-   * //           "lower": -Infinity, "init": 0.5 }}
-   */
+ * Completes params_to_complete, an object containing parameter descriptions,
+ * and initializes non-initialized parameters. This modified version of
+ * params_to_complete is returned as a deep copy and not modified in place.
+ * Initialization is done by supplying a param_init function with signature
+ * function(type, lower, upper) that should return a single number
+ * (like param_init_fixed, for example).
+ * @example
+ * var params = { "mu": {"type": "real"} }
+ * params = complete_params(params);
+ * // params should now be:
+ * //  {"mu": { "type": "real", "dim": [1], "upper": Infinity,
+ * //           "lower": -Infinity, "init": 0.5 }}
+ */
 var complete_params = function (params_to_complete: any, param_init: any) {
   var params = deep_clone(params_to_complete);
   for (var param_name in params) {
@@ -375,28 +374,27 @@ var complete_params = function (params_to_complete: any, param_init: any) {
 ////////////////////////////////////////
 
 /**
-   * @interface
-   * A Stepper is an object responsible for pushing around one
-   * or more parameter values in a state according to the distribution
-   * defined by the log posterior. This defines the Stepper "interface",
-   * where "interface" means that Stepper defines a class that is never
-   * meant to be instantiated, but just to be subclassed by specialized
-   * stepper functions.
-   * @interface
-   * @param params - An object with parameter definitions, for example:
-   *   {"mu": { "type": "real", "dim": [1], "upper": Infinity, 
-   *   "lower": -Infinity, "init": 0.5 }}
-   *   The parameter definitions are expected to be "complete", that is,
-   *   specifying all relevant attributes such as dim, lower and upper.
-   * @param state - an object containing the state of all parameters in params
-   *   (and possibly more). The parameter names are given as keys and the states
-   *   as scalars or, possibly nested, arrays. For example:
-   *   {mu: 10, sigma: 5, beta: [1, 2.5]}
-   * @param log_post - A function *taking no parameters* that returns the
-   *   log density that depends on the state. That is, the value of log_post
-   *   should change if the the values in state are changed.
-  
-   */
+ * @interface
+ * A Stepper is an object responsible for pushing around one
+ * or more parameter values in a state according to the distribution
+ * defined by the log posterior. This defines the Stepper "interface",
+ * where "interface" means that Stepper defines a class that is never
+ * meant to be instantiated, but just to be subclassed by specialized
+ * stepper functions.
+ * @interface
+ * @param params - An object with parameter definitions, for example:
+ *   {"mu": { "type": "real", "dim": [1], "upper": Infinity,
+ *   "lower": -Infinity, "init": 0.5 }}
+ *   The parameter definitions are expected to be "complete", that is,
+ *   specifying all relevant attributes such as dim, lower and upper.
+ * @param state - an object containing the state of all parameters in params
+ *   (and possibly more). The parameter names are given as keys and the states
+ *   as scalars or, possibly nested, arrays. For example:
+ *   {mu: 10, sigma: 5, beta: [1, 2.5]}
+ * @param log_post - A function *taking no parameters* that returns the
+ *   log density that depends on the state. That is, the value of log_post
+ *   should change if the the values in state are changed.
+ */
 abstract class Stepper {
   params: any;
   state: any;
@@ -431,19 +429,19 @@ abstract class Stepper {
 }
 
 /**
-   * @class
-   * @implements {Stepper}
-   * Constructor for an object that implements the metropolis step in
-   * the Adaptive Metropolis-Within-Gibbs algorithm in "Examples of Adaptive MCMC"
-   * by Roberts and Rosenthal (2008).
-   * @param params - An object with a single parameter definition.
-   * @param state - an object containing the state of all parameters.
-   * @param log_post - A function that returns the log density that depends on the state. 
-   * @param options - an object with options to the stepper.
-   * @param generate_proposal - a function returning a proposal (as a number)
-   * with signature function(param_state, log_scale) where param_state is a
-   * number and log_scale defines the scale of the proposal somehow.
-  */
+ * @class
+ * @implements {Stepper}
+ * Constructor for an object that implements the metropolis step in
+ * the Adaptive Metropolis-Within-Gibbs algorithm in "Examples of Adaptive MCMC"
+ * by Roberts and Rosenthal (2008).
+ * @param params - An object with a single parameter definition.
+ * @param state - an object containing the state of all parameters.
+ * @param log_post - A function that returns the log density that depends on the state.
+ * @param options - an object with options to the stepper.
+ * @param generate_proposal - a function returning a proposal (as a number)
+ * with signature function(param_state, log_scale) where param_state is a
+ * number and log_scale defines the scale of the proposal somehow.
+ */
 export class OnedimMetropolisStepper extends Stepper {
   param_name: any;
   lower: number;
@@ -555,17 +553,17 @@ export class OnedimMetropolisStepper extends Stepper {
 }
 
 /**
-   * Function returning a Normal proposal.
-   */
+ * Function returning a Normal proposal.
+ */
 const normal_proposal = function (param_state: any, prop_log_scale: any) {
   return rnorm(param_state, Math.exp(prop_log_scale));
 };
 
 /**
-   * @class
-   * @augments {OnedimMetropolisStepper}
-   * A "subclass" of OnedimMetropolisStepper making continous Normal proposals.
-   */
+ * @class
+ * @augments {OnedimMetropolisStepper}
+ * A "subclass" of OnedimMetropolisStepper making continous Normal proposals.
+ */
 class RealMetropolisStepper extends OnedimMetropolisStepper {
   constructor(params: any, state: any, log_post: Function, options: any) {
     super(params, state, log_post, options, normal_proposal);
@@ -573,8 +571,8 @@ class RealMetropolisStepper extends OnedimMetropolisStepper {
 }
 
 /**
-   * Function returning a discretized Normal proposal.
-   */
+ * Function returning a discretized Normal proposal.
+ */
 const discrete_normal_proposal = function (
   param_state: any,
   prop_log_scale: any,
@@ -583,10 +581,10 @@ const discrete_normal_proposal = function (
 };
 
 /**
-   * @class
-   * @augments {OnedimMetropolisStepper}
-   * A "subclass" of OnedimMetropolisStepper making discretized Normal proposals.
-   */
+ * @class
+ * @augments {OnedimMetropolisStepper}
+ * A "subclass" of OnedimMetropolisStepper making discretized Normal proposals.
+ */
 class IntMetropolisStepper extends OnedimMetropolisStepper {
   constructor(params: any, state: any, log_post: Function, options: any) {
     super(params, state, log_post, options, discrete_normal_proposal);
@@ -594,23 +592,23 @@ class IntMetropolisStepper extends OnedimMetropolisStepper {
 }
 
 /**
-   * @class
-   * @implements {Stepper}
-   * Constructor for an object that implements the metropolis step in
-   * the Adaptive Metropolis-Within-Gibbs algorithm in "Examples of Adaptive MCMC"
-   * by Roberts and Rosenthal (2008) for possibly multidimensional arrays. That
-   * is, instead of just taking a step for a one-dimensional parameter like 
-   * OnedimMetropolisStepper, this Stepper is responsible for taking steps 
-   * for a multidimensional array. It's still pretty dumb and just takes
-   * one-dimensional steps for each parameter component, though.
-   * @param params - An object with a single parameter definition for a 
-   *   multidimensional parameter.
-   * @param state - an object containing the state of all parameters.
-   * @param log_post - A function that returns the log density that depends on the state. 
-   * @param options - an object with options to the stepper.
-   * @param SubStepper - a constructor for the type of one dimensional Stepper to apply on
-   *   all the components of the multidimensional parameter.
-  */
+ * @class
+ * @implements {Stepper}
+ * Constructor for an object that implements the metropolis step in
+ * the Adaptive Metropolis-Within-Gibbs algorithm in "Examples of Adaptive MCMC"
+ * by Roberts and Rosenthal (2008) for possibly multidimensional arrays. That
+ * is, instead of just taking a step for a one-dimensional parameter like
+ * OnedimMetropolisStepper, this Stepper is responsible for taking steps
+ * for a multidimensional array. It's still pretty dumb and just takes
+ * one-dimensional steps for each parameter component, though.
+ * @param params - An object with a single parameter definition for a
+ *   multidimensional parameter.
+ * @param state - an object containing the state of all parameters.
+ * @param log_post - A function that returns the log density that depends on the state.
+ * @param options - an object with options to the stepper.
+ * @param SubStepper - a constructor for the type of one dimensional Stepper to apply on
+ *   all the components of the multidimensional parameter.
+ */
 
 export class MultidimComponentMetropolisStepper extends Stepper {
   param_name: any;
@@ -771,10 +769,10 @@ export class MultidimComponentMetropolisStepper extends Stepper {
 }
 
 /**
-   * @class
-   * @augments {MultidimComponentMetropolisStepper}
-   * A "subclass" of MultidimComponentMetropolisStepper making continous Normal proposals.
-   */
+ * @class
+ * @augments {MultidimComponentMetropolisStepper}
+ * A "subclass" of MultidimComponentMetropolisStepper making continous Normal proposals.
+ */
 class MultiRealComponentMetropolisStepper
   extends MultidimComponentMetropolisStepper {
   constructor(params: any, state: any, log_post: any, options: any) {
@@ -783,10 +781,10 @@ class MultiRealComponentMetropolisStepper
 }
 
 /**
-   * @class
-   * @augments {MultidimComponentMetropolisStepper}
-   * A "subclass" of MultidimComponentMetropolisStepper making discretized Normal proposals.
-   */
+ * @class
+ * @augments {MultidimComponentMetropolisStepper}
+ * A "subclass" of MultidimComponentMetropolisStepper making discretized Normal proposals.
+ */
 class MultiIntComponentMetropolisStepper
   extends MultidimComponentMetropolisStepper {
   constructor(params: any, state: any, log_post: any, options: any) {
@@ -795,17 +793,17 @@ class MultiIntComponentMetropolisStepper
 }
 
 /**
-   * @class
-   * @implements {Stepper}
-   * Constructor for an object that implements a step for a binary parameter.
-   * This is done by evaluating the log posterior for both states of the
-   * parameter and then selecting a state randomly with probability relative 
-   * to the posterior of each state.
-   * @param params - An object with a single parameter definition.
-   * @param state - an object containing the state of all parameters.
-   * @param log_post - A function that returns the log density that depends on the state. 
-   * @param options - an object with options to the stepper.
-  */
+ * @class
+ * @implements {Stepper}
+ * Constructor for an object that implements a step for a binary parameter.
+ * This is done by evaluating the log posterior for both states of the
+ * parameter and then selecting a state randomly with probability relative
+ * to the posterior of each state.
+ * @param params - An object with a single parameter definition.
+ * @param state - an object containing the state of all parameters.
+ * @param log_post - A function that returns the log density that depends on the state.
+ * @param options - an object with options to the stepper.
+ */
 export class BinaryStepper extends Stepper {
   param_name: any;
   constructor(params: any, state: any, log_post: Function, options?: any) {
@@ -841,17 +839,17 @@ export class BinaryStepper extends Stepper {
 }
 
 /**
-   * @class
-   * @implements {Stepper}
-   * Just like MultidimComponentMetropolisStepper this Stepper takes a steps for
-   * a multidimensional parameter by updating each component in turn. The difference
-   * is that this stepper works on binary parameters.
-   * @param params - An object with a single parameter definition for a 
-   *   multidimensional parameter.
-   * @param state - an object containing the state of all parameters.
-   * @param log_post - A function that returns the log density that depends on the state. 
-   * @param options - an object with options to the stepper.
-  */
+ * @class
+ * @implements {Stepper}
+ * Just like MultidimComponentMetropolisStepper this Stepper takes a steps for
+ * a multidimensional parameter by updating each component in turn. The difference
+ * is that this stepper works on binary parameters.
+ * @param params - An object with a single parameter definition for a
+ *   multidimensional parameter.
+ * @param state - an object containing the state of all parameters.
+ * @param log_post - A function that returns the log density that depends on the state.
+ * @param options - an object with options to the stepper.
+ */
 export class BinaryComponentStepper extends Stepper {
   substeppers: any;
   param_name: any;
@@ -914,20 +912,20 @@ export class BinaryComponentStepper extends Stepper {
     return {};
   }
 } /**
-   * @class
-   * @implements {Stepper}
-   * This stepper can be responsible for taking a step for one or more parameters.
-   * For real and int parameters it takes Metropolis within Gibbs steps, and for 
-   * binary parameters it does evaluates the posterior for both paramter values and
-   * randomly changes to a certain value proportionally to that value's posterior
-   * (this is also done for each parameter, so also a * within Gibbs approach).
-   * This stepper is also adaptive and can be efficient when the number of parameters
-   * are not too high and the correlations between parameters are low.
-   * @param params - An object with a one or more parameter definitions
-   * @param state - an object containing the state of all parameters.
-   * @param log_post - A function that returns the log density that depends on the state. 
-   * @param options - an object with options to the stepper.
-  */
+ * @class
+ * @implements {Stepper}
+ * This stepper can be responsible for taking a step for one or more parameters.
+ * For real and int parameters it takes Metropolis within Gibbs steps, and for
+ * binary parameters it does evaluates the posterior for both paramter values and
+ * randomly changes to a certain value proportionally to that value's posterior
+ * (this is also done for each parameter, so also a * within Gibbs approach).
+ * This stepper is also adaptive and can be efficient when the number of parameters
+ * are not too high and the correlations between parameters are low.
+ * @param params - An object with a one or more parameter definitions
+ * @param state - an object containing the state of all parameters.
+ * @param log_post - A function that returns the log density that depends on the state.
+ * @param options - an object with options to the stepper.
+ */
 
 export enum ParameterType {
   Real,
@@ -1039,9 +1037,9 @@ export class AmwgStepper extends Stepper {
    *   The parameter definitions doesn't have to be "complete" and properties
    *   left out (like lower and upper) will be filled in by defaults.
    * @param log_post - A function with signature function(state, data). Here
-   *   state will be an object representing the state with each parameter as a 
+   *   state will be an object representing the state with each parameter as a
    *   key and the parameter values as numbers or arrays. For example:
-   *   {"mu": 3, "sigma": 1.5}. The data argument will be the same object as 
+   *   {"mu": 3, "sigma": 1.5}. The data argument will be the same object as
    *   the data argument given below.
    * @param data - an object that will be passed on to the log_post function
    *   when sampling.
@@ -1094,7 +1092,7 @@ abstract class Sampler {
       this.options,
     );
   }
-  /** Should return a vector of steppers that when called 
+  /** Should return a vector of steppers that when called
    * should take a step in the parameter space.
    */
   abstract create_stepper_ensamble(
@@ -1210,20 +1208,20 @@ abstract class Sampler {
 }
 
 /**
-   * @class
-   * @implements {Sampler}
-   * This sampler uses the AmwgStepper as the stepper function which implements the 
-   * Adaptive Metropolis-Within-Gibbs algorithm in "Examples of Adaptive MCMC"
-   * by Roberts and Rosenthal (2008). An adition is that it handles int parameters
-   * by making discrete Normal proposals and binary parameters by taking on a new 
-   * value proportional to the posterior of the two possible states of the
-   * parameter. This sampler can be efficient when the number of parameters
-   * are not too high and the correlations between parameters are low.
-   * @param params - An object with a one or more parameter definitions
-   * @param state - an object containing the state of all parameters.
-   * @param log_post - A function that returns the log density that depends on the state. 
-   * @param options - an object with options to the stepper.
-  */
+ * @class
+ * @implements {Sampler}
+ * This sampler uses the AmwgStepper as the stepper function which implements the
+ * Adaptive Metropolis-Within-Gibbs algorithm in "Examples of Adaptive MCMC"
+ * by Roberts and Rosenthal (2008). An adition is that it handles int parameters
+ * by making discrete Normal proposals and binary parameters by taking on a new
+ * value proportional to the posterior of the two possible states of the
+ * parameter. This sampler can be efficient when the number of parameters
+ * are not too high and the correlations between parameters are low.
+ * @param params - An object with a one or more parameter definitions
+ * @param state - an object containing the state of all parameters.
+ * @param log_post - A function that returns the log density that depends on the state.
+ * @param options - an object with options to the stepper.
+ */
 export class AmwgSampler extends Sampler {
   constructor(params: any, log_post: Function, data: any, options?: any) {
     super(params, log_post, data, options);

@@ -8,7 +8,7 @@ function assertEqualsDelta(
   actual: number,
   expected: number,
   delta: number,
-  msg?: string
+  msg?: string,
 ): void {
   assertEquals(actual < expected + delta || actual > expected - delta, true);
 }

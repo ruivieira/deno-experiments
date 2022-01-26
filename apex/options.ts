@@ -156,7 +156,7 @@ export interface ChartOptions {
 
 export function createXAnnotation(
   value: number,
-  text: string
+  text: string,
 ): XAxisAnnotation {
   return {
     x: value,
@@ -176,7 +176,7 @@ export function createXAnnotation(
 
 export function createYAnnotation(
   value: number,
-  text: string
+  text: string,
 ): YAxisAnnotation {
   return {
     y: value,

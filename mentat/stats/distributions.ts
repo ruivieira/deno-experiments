@@ -34,7 +34,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
+// @ts-ignore for importing from nodejs
 import { Matrix, SVDResult, Vector } from "../linalg/core.ts";
+// @ts-ignore for importing from nodejs
 import { range } from "../utils.ts";
 
 interface UnivariateContinuousDistribution {
@@ -153,7 +155,7 @@ export class Normal implements UnivariateContinuousDistribution {
     return rnorm(this.mean, this.std);
   }
   sampleN(n: number): Array<number> {
-    return range(n).map((_) => this.sample());
+    return range(n).map(() => this.sample());
   }
   variance() {
     return this.std * this.std;
@@ -171,10 +173,10 @@ export class MultivariateNormal implements MultivariateContinuousDistribution {
     this.mean = mean;
     this.cov = cov;
     this.covSVD = cov.svd();
-    this.sqrtS = this.covSVD.S.map((x) => Math.sqrt(x));
+    this.sqrtS = this.covSVD.S.map((x: number) => Math.sqrt(x));
     this.scaledV = new Matrix(
-      this.covSVD.V.asNestedArray().map((row) => {
-        return row.map((val, colIdx) => {
+      this.covSVD.V.asNestedArray().map((row: number[]) => {
+        return row.map((val: number, colIdx: number) => {
           return val * this.sqrtS.data[colIdx];
         });
       }),
@@ -191,10 +193,12 @@ export class MultivariateNormal implements MultivariateContinuousDistribution {
       .transpose()
       .multiply(standardNormal) as Vector;
     // add the mean
-    return variants.asArray().map((variant, idx) => variant + this.mean[idx]);
+    return variants
+      .asArray()
+      .map((variant: number, idx: number) => variant + this.mean[idx]);
   }
   sampleN(n: number): number[][] {
-    return range(n).map((_) => this.sample());
+    return range(n).map(() => this.sample());
   }
 }
 

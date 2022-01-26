@@ -1,12 +1,15 @@
 import { readSecrets } from "./secrets.ts";
-import { Trello, TrelloList, TrelloCard } from "../common/tasks/trello.ts";
+import { Trello, TrelloCard, TrelloList } from "../common/tasks/trello.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 
 const credentials = readSecrets<any>("trello");
 
 const trello = new Trello(credentials.key, credentials.token);
 
-const DESTINATION = path.join(Deno.env.get("HOME")!, "tmp/kanban");
+const DESTINATION = path.join(
+  Deno.env.get("HOME")!,
+  "notes/logseq/pages/kanban",
+);
 
 const _header = `---
 
@@ -34,10 +37,10 @@ for (const board of boards) {
 
 function buildCardTask(card: TrelloCard): string {
   const completed = card.closed ? "x" : " ";
-  if (card.dueReminder!=undefined) {
-    console.log(card.dueReminder)
+  if (card.dueReminder != undefined) {
+    console.log(card.dueReminder);
   }
-  const dueDate = card.due!=undefined ? `@${card.dueReminder!}` : ""
+  const dueDate = card.due != undefined ? `@${card.dueReminder!}` : "";
   return `- [${completed}] ${card.name} [🔗](https://trello.com/c/${card.shortLink}) ${dueDate}`;
 }
 
@@ -48,12 +51,18 @@ boards.forEach((board) => {
     boardText.push(`\n## ${list.name}\n`);
     console.log(`List ${list.name} is on board ${board.name}`);
     const listCards = cards.filter((card) => card.idList == list.id);
-    listCards.forEach((card) => {
+    const processedCards = listCards.map((card) => {
+      if (list.name == "Done") {
+        card.closed = true;
+      }
+      return card;
+    });
+    processedCards.forEach((card) => {
       boardText.push(buildCardTask(card));
     });
     Deno.writeTextFile(
       path.join(DESTINATION, `${board.name} board.md`),
-      boardText.join("\n")
+      boardText.join("\n"),
     );
   });
 });

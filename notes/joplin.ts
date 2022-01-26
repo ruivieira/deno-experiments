@@ -2,7 +2,12 @@
  * INFO: tools to manipulate Joplin's notes
  */
 
-import { DataTypes, Database, Model, SQLite3Connector } from 'https://deno.land/x/denodb/mod.ts';
+import {
+  Database,
+  DataTypes,
+  Model,
+  SQLite3Connector,
+} from "https://deno.land/x/denodb/mod.ts";
 
 const HOME = Deno.env.get("HOME");
 
@@ -10,14 +15,14 @@ export function getJoplinDB(): Database {
   const connector = new SQLite3Connector({
     filepath: `${HOME}/.config/joplin-desktop/database.sqlite`,
   });
-  
+
   const db: Database = new Database(connector);
-  
+
   return db;
 }
 
 export class Notes extends Model {
-  static table = 'notes';
+  static table = "notes";
   static timestamps = true;
 
   static fields = {
@@ -27,8 +32,7 @@ export class Notes extends Model {
     created_time: DataTypes.TIMESTAMP,
   };
 
-  static defaults = {
-  };
+  static defaults = {};
 }
 
 export const db = getJoplinDB();
@@ -37,14 +41,14 @@ db.link([Notes]);
 // export function listTitles(db: DB): Array<string> {
 //   const titles: Array<string> = [];
 //   for (const [title] of db.query("SELECT title FROM notes")) {
-    
+
 //     titles.push(title as string);
 //   }
 //   return titles;
 // }
 
 // export function getAllNotes(db: DB): Array<Note> {
-//   const notes: Array<Note> = []; 
+//   const notes: Array<Note> = [];
 //   for (const [id, title, body, createdTime] of db.query("SELECT id, title, body, created_time FROM notes")) {
 //     notes.push({
 //       id: id as number,

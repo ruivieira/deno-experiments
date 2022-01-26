@@ -90,14 +90,13 @@ export class NaiveBayes {
   wordFrequencyCount: any;
   categories: any;
   /**
- * Naive-Bayes Classifier
- *
- * This is a naive-bayes classifier that uses Laplace Smoothing.
- *
- * Takes an (optional) options object containing:
- *   - `tokenizer`  => custom tokenization function
- *
- */
+   * Naive-Bayes Classifier
+   *
+   * This is a naive-bayes classifier that uses Laplace Smoothing.
+   *
+   * Takes an (optional) options object containing:
+   *   - `tokenizer`  => custom tokenization function
+   */
   constructor(options?: any) {
     // set options object
     this.options = {};
@@ -136,10 +135,10 @@ export class NaiveBayes {
   }
 
   /**
- * Initialize each of our data structure entries for this new category
- *
- * @param  {String} categoryName
- */
+   * Initialize each of our data structure entries for this new category
+   *
+   * @param  {String} categoryName
+   */
   initializeCategory(categoryName: string) {
     if (!this.categories[categoryName]) {
       this.docCount[categoryName] = 0;
@@ -151,12 +150,12 @@ export class NaiveBayes {
   }
 
   /**
- * train our naive-bayes classifier by telling it what `category`
- * the `text` corresponds to.
- *
- * @param  {String} text
- * @param  {Promise<String>} class
- */
+   * train our naive-bayes classifier by telling it what `category`
+   * the `text` corresponds to.
+   *
+   * @param  {String} text
+   * @param  {Promise<String>} class
+   */
   async learn(text: string, category: any) {
     var self = this;
 
@@ -205,11 +204,11 @@ export class NaiveBayes {
   }
 
   /**
- * Determine what category `text` belongs to.
- *
- * @param  {String} text
- * @return {Promise<string>} category
- */
+   * Determine what category `text` belongs to.
+   *
+   * @param  {String} text
+   * @return {Promise<string>} category
+   */
   async categorize(text: string) {
     var self = this,
       maxProbability = -Infinity,
@@ -253,12 +252,12 @@ export class NaiveBayes {
   }
 
   /**
- * Calculate probability that a `token` belongs to a `category`
- *
- * @param  {String} token
- * @param  {String} category
- * @return {Number} probability
- */
+   * Calculate probability that a `token` belongs to a `category`
+   *
+   * @param  {String} token
+   * @param  {String} category
+   * @return {Number} probability
+   */
   tokenProbability(token: string, category: string) {
     //how many times this word has occurred in documents mapped to this category
     var wordFrequencyCount = this.wordFrequencyCount[category][token] || 0;
@@ -271,13 +270,13 @@ export class NaiveBayes {
   }
 
   /**
- * Build a frequency hashmap where
- * - the keys are the entries in `tokens`
- * - the values are the frequency of each entry in `tokens`
- *
- * @param  {Array} tokens  Normalized word array
- * @return {Object}
- */
+   * Build a frequency hashmap where
+   * - the keys are the entries in `tokens`
+   * - the values are the frequency of each entry in `tokens`
+   *
+   * @param  {Array} tokens  Normalized word array
+   * @return {Object}
+   */
   frequencyTable(tokens: any) {
     var frequencyTable = Object.create(null);
 
@@ -293,9 +292,9 @@ export class NaiveBayes {
   }
 
   /**
- * Dump the classifier's state as a JSON string.
- * @return {String} Representation of the classifier.
- */
+   * Dump the classifier's state as a JSON string.
+   * @return {String} Representation of the classifier.
+   */
   // toJson() {
   //   var state:any = {}
   //   STATE_KEYS.forEach(function (k) {

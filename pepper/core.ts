@@ -214,7 +214,7 @@ export class Pepper {
         const notebook = new JupyterNotebook(
           content,
           "./images/",
-          normaliseLink(title)
+          normaliseLink(title),
         );
         jupyterFiles.push(notebook);
         sources.push(new MarkdownFile(title, notebook.render(), modified!));
@@ -259,12 +259,12 @@ export class Pepper {
           if (wikilink.fragment == null) {
             source.content = source.content.replaceAll(
               match[0],
-              `[${wikilink.titleName}](${normalisedTitle}.html)`
+              `[${wikilink.titleName}](${normalisedTitle}.html)`,
             );
           } else {
             source.content = source.content.replaceAll(
               match[0],
-              `[${wikilink.titleName}](${normalisedTitle}.html#${wikilink.fragment})`
+              `[${wikilink.titleName}](${normalisedTitle}.html#${wikilink.fragment})`,
             );
           }
         }
@@ -285,7 +285,7 @@ export class Pepper {
 
     for (const source of sources) {
       const toc = renderMarkdownSnippetAsHTML(
-        createMarkdownTOC(source.content)
+        createMarkdownTOC(source.content),
       );
       const s = render(
         pageTemplate,
@@ -301,11 +301,11 @@ export class Pepper {
           toc: toc,
           modified: format(source.mTime),
         },
-        { async: false, autoEscape: false }
+        { async: false, autoEscape: false },
       );
       Deno.writeTextFileSync(
         `${destination}/${normaliseLink(source.title)}.html`,
-        s as string
+        s as string,
       );
       progressBar.render(completed++);
     }
@@ -319,7 +319,7 @@ export class Pepper {
         const data = base64Decode(content);
         Deno.writeFileSync(
           join(source, notebook.imageFolder, image + ".png"),
-          data
+          data,
         );
       }
     }
@@ -333,7 +333,7 @@ export class Pepper {
     for (const source of sources) {
       // escape HTML entities so they don't mess with the Javascript source
       const text = Html5Entities.encodeNonUTF(
-        source.content.replace(/\s\s+/g, " ")
+        source.content.replace(/\s\s+/g, " "),
       );
       const doc = {
         id: i,
@@ -349,7 +349,7 @@ export class Pepper {
       {
         script: script.join("\n"),
       },
-      { async: false, autoEscape: false }
+      { async: false, autoEscape: false },
     );
     Deno.writeTextFileSync(`${destination}/search.html`, s as string);
   }
@@ -357,7 +357,8 @@ export class Pepper {
     const links = [];
     for (const source of sources) {
       const d = source.mTime;
-      const dateString = `${d.getFullYear()}-${d.getMonth()}-${d.getDay()}T${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}Z`;
+      const dateString =
+        `${d.getFullYear()}-${d.getMonth()}-${d.getDay()}T${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}Z`;
       links.push({
         url: this.baseURL + normaliseLink(source.title) + ".html",
         modified: dateString,
@@ -389,14 +390,14 @@ export class Pepper {
       {
         links: allLinks,
       },
-      { async: false, autoEscape: false }
+      { async: false, autoEscape: false },
     );
     Deno.writeTextFileSync(`${destination}/content.html`, s as string);
   }
   createJSONGraph(
     markdownMap: MarkdownMap,
     sources: MarkdownFile[],
-    destination: string
+    destination: string,
   ) {
     const nodes = [];
     const uniqueNodes: Set<string> = new Set<string>();
