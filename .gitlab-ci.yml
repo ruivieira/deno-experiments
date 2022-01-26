@@ -1,0 +1,6 @@
+image: hayd/deno
+
+test:
+  script:
+    - deno fmt --check */**.ts
+    - deno test -A --unstable tests/*.ts
