@@ -32,6 +32,7 @@
 - [common/tasks/todoist.ts](common/tasks/todoist.ts), REST client for the todoist service [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/common/tasks/todoist.ts)]
 - [mesozoicbot.ts](mesozoicbot.ts), Mastodon notification bot for website builds [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mesozoicbot.ts)]
 - [ml/naivebayes.ts](ml/naivebayes.ts), a port of ttezel's naive Bayes implementation [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/ml/naivebayes.ts)]
+- [docker/containerise.ts](docker/containerise.ts), Quick creation of containerised Deno apps [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/docker/containerise.ts)]
 - [mentat/stats/distributions.ts](mentat/stats/distributions.ts), a collection of log probability density functions (PDF) [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/stats/distributions.ts)]
 - [mentat/linalg/core.ts](mentat/linalg/core.ts), port of the _Bayes for physicists_ linear algebra library to Deno [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/linalg/core.ts)]
 
