@@ -28,6 +28,7 @@
 - [apps/snippets/app.ts](apps/snippets/app.ts), Online browser for Geometric firs [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/apps/snippets/app.ts)]
 - [mentat/utils.ts](mentat/utils.ts), assorted mathematical utility functions [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mentat/utils.ts)]
 - [web/utils/sitemap.ts](web/utils/sitemap.ts), Simple utility to generate sitemaps [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/web/utils/sitemap.ts)]
+- [common/k8s/api.ts](common/k8s/api.ts), Interface definitions for K8s resources [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/common/k8s/api.ts)]
 - [readme.ts](readme.ts), script to auto-generate this repo's `README.md` [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/readme.ts)]
 - [common/tasks/todoist.ts](common/tasks/todoist.ts), REST client for the todoist service [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/common/tasks/todoist.ts)]
 - [mesozoicbot.ts](mesozoicbot.ts), Mastodon notification bot for website builds [[docs](https://doc.deno.land/https/git.sr.ht/~ruivieira/deno-experiments/blob/master/mesozoicbot.ts)]
