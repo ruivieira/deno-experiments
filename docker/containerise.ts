@@ -2,7 +2,7 @@
  * INFO: Quick creation of containerised Deno apps
  */
 import parseArgs from "https://deno.land/x/deno_minimist/mod.ts";
-import {basename} from "https://deno.land/std/path/mod.ts";
+import { basename } from "https://deno.land/std/path/mod.ts";
 
 export const createDockerfile = (entry: string): string => {
   const template = `# syntax=docker/dockerfile:1
