@@ -11,19 +11,19 @@ export interface KubernetesResource extends Record<string, unknown> {
 
 export interface Deployment extends KubernetesResource {
   metadata: {
-    name: string;
+    readonly name: string;
     labels: {
       app: string;
     };
   };
 }
 
-const defaultDeployment = (): Deployment => {
+const defaultDeployment = (name: string): Deployment => {
   const d = {
     apiVersion: "app/v1",
     kind: "Deployment",
     metadata: {
-      name: "octopus-deployment",
+      name: name,
       labels: {
         app: "web",
       },
@@ -48,10 +48,14 @@ abstract class AbstractResourceManager<T extends Record<string, unknown>>
   asYaml(): string {
     return yamlStringify(this.resource);
   }
+
+  saveAs(path: string) {
+    Deno.writeTextFile(path, this.asYaml());
+  }
 }
 
 export class DeploymentManager extends AbstractResourceManager<Deployment> {
-  constructor() {
-    super(defaultDeployment());
+  constructor(name: string) {
+    super(defaultDeployment(name));
   }
 }
