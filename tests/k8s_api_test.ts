@@ -22,7 +22,21 @@ Deno.test("K8s :: API :: Deployment default", () => {
 Deno.test("K8s :: API :: Deployment from container", () => {
   const id = { name: "test-app", tag: "latest" };
   const container = new Container(id, "scratch");
-
   const deployment = DeploymentManager.fromContainer(container);
+  const expected = `apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: test-app
+  labels:
+    app: web
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - image: 'test-app:latest'
+          name: test-app
+          imagePullPolicy: Never
+`;
   assertEquals(deployment.asYaml(), expected);
 });

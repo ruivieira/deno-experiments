@@ -19,9 +19,16 @@ export interface Metadata {
   };
 }
 
+export enum ImagePullPolicy {
+  IF_NOT_PRESENT = "IfNotPresent",
+  ALWAYS = "Always",
+  NEVER = "Never",
+}
+
 export interface SpecTemplateContainer {
   image: string;
   name: string;
+  imagePullPolicy: ImagePullPolicy;
 }
 
 export interface SpecTemplate {
@@ -85,6 +92,18 @@ export class DeploymentManager extends AbstractResourceManager<Deployment> {
 
   public static fromContainer(container: Container): DeploymentManager {
     const result = new DeploymentManager(container.identifier.name);
+    // add container spec
+    result.resource.spec.template = {
+      spec: {
+        containers: [
+          {
+            image: `${container.identifier.name}:${container.identifier.tag}`,
+            name: container.identifier.name,
+            imagePullPolicy: ImagePullPolicy.NEVER,
+          },
+        ],
+      },
+    };
     return result;
   }
 }
