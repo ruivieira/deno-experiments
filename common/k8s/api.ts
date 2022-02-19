@@ -7,16 +7,23 @@ import { stringify as yamlStringify } from "https://deno.land/std/encoding/yaml.
 export interface KubernetesResource extends Record<string, unknown> {
   apiVersion: string;
   kind: string;
+  metadata: Metadata;
+  spec: Spec;
 }
 
-export interface Deployment extends KubernetesResource {
-  metadata: {
-    readonly name: string;
-    labels: {
-      app: string;
-    };
+export interface Metadata {
+  readonly name: string;
+  labels: {
+    app: string;
   };
 }
+
+export interface Spec {
+  replicas: number;
+}
+
+// export interface Deployment extends KubernetesResource {}
+type Deployment = KubernetesResource;
 
 const defaultDeployment = (name: string): Deployment => {
   const d = {
@@ -27,6 +34,9 @@ const defaultDeployment = (name: string): Deployment => {
       labels: {
         app: "web",
       },
+    },
+    spec: {
+      replicas: 1,
     },
   };
   return d;

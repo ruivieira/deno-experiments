@@ -10,6 +10,8 @@ metadata:
   name: test-app
   labels:
     app: web
+spec:
+  replicas: 1
 `;
   assertEquals(deployment.asYaml(), expected);
 });
