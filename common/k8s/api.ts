@@ -3,6 +3,7 @@
  */
 
 import { stringify as yamlStringify } from "https://deno.land/std/encoding/yaml.ts";
+import { Container } from "../containers/core.ts";
 
 export interface KubernetesResource extends Record<string, unknown> {
   apiVersion: string;
@@ -18,8 +19,21 @@ export interface Metadata {
   };
 }
 
+export interface SpecTemplateContainer {
+  image: string;
+  name: string;
+}
+
+export interface SpecTemplate {
+  spec?: {
+    containers?: Array<SpecTemplateContainer>;
+    container?: SpecTemplateContainer;
+  };
+}
+
 export interface Spec {
   replicas: number;
+  template?: SpecTemplate;
 }
 
 // export interface Deployment extends KubernetesResource {}
@@ -67,5 +81,10 @@ abstract class AbstractResourceManager<T extends Record<string, unknown>>
 export class DeploymentManager extends AbstractResourceManager<Deployment> {
   constructor(name: string) {
     super(defaultDeployment(name));
+  }
+
+  public static fromContainer(container: Container): DeploymentManager {
+    const result = new DeploymentManager(container.identifier.name);
+    return result;
   }
 }
